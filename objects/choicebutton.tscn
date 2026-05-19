@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dr8b1m2gxs6p2"]
 
-[ext_resource type="Texture2D" uid="uid://cbggaqi2djqx8" path="res://icon.svg" id="1_al1dj"]
-[ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://choice.gd" id="2_6d6hr"]
+[ext_resource type="Texture2D" uid="uid://cbggaqi2djqx8" path="res://assets/icon.svg" id="1_al1dj"]
+[ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://scripts/choice.gd" id="2_6d6hr"]
 
 [node name="Choice" type="TextureButton" unique_id=1665484643]
 offset_right = 128.0
@@ -23,3 +23,5 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 23
 text = "text"
+horizontal_alignment = 1
+vertical_alignment = 1
