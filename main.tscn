@@ -5,15 +5,15 @@
 
 [node name="Node2D" type="Node2D" unique_id=1503019708 node_paths=PackedStringArray("L")]
 script = ExtResource("1_0xm2m")
-L = NodePath("1")
+L = NodePath("Scene_Text")
 
-[node name="1" type="Label" parent="." unique_id=871573298]
+[node name="Scene_Text" type="Label" parent="." unique_id=871573298]
 offset_left = 177.0
 offset_top = 70.0
 offset_right = 871.0
-offset_bottom = 288.0
+offset_bottom = 153.0
 theme_override_font_sizes/font_size = 60
-text = "a mysterious guy asked you want 10k"
+text = "Hello!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Cat burgler game"
-run/main_scene="res://main.tscn"
+run/main_scene="uid://3wh07r6dgcly"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/main_scene="res://main.tscn"
 
 [physics]
 
