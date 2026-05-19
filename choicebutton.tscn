@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dr8b1m2gxs6p2"]
+
+[ext_resource type="Texture2D" uid="uid://cbggaqi2djqx8" path="res://icon.svg" id="1_al1dj"]
+[ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://choice.gd" id="2_6d6hr"]
+
+[node name="Choice" type="TextureButton" unique_id=1665484643]
+offset_right = 128.0
+offset_bottom = 157.0
+texture_normal = ExtResource("1_al1dj")
+script = ExtResource("2_6d6hr")
+
+[node name="Label" type="Label" parent="." unique_id=1487920070]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.0
+offset_top = -32.0
+offset_right = 22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 23
+text = "text"
