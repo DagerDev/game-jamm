@@ -23,10 +23,3 @@ func update():
 	for i in range(buttons.size()):
 		buttons[i].visible = i < button_count
 		
-
-
-
-
-func _on_spin_box_value_changed(value: float) -> void: #temporaryyyyy
-	button_count = value
-	update()

@@ -1,11 +1,66 @@
 [gd_scene format=3 uid="uid://dr0bq5m6vwnb"]
 
 [ext_resource type="Script" uid="uid://px6w0pneo0y0" path="res://scripts/control.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://cysy2ax3d11ss" path="res://scripts/main.gd" id="1_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://dr8b1m2gxs6p2" path="res://objects/choicebutton.tscn" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cnjvbct8fw2sv" path="res://assets/cutscenes/CS1/CS-1 F-1.png" id="3_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://u8ld1an70oit" path="res://assets/cutscenes/CS1/CS-1 F-2.png" id="4_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://dqxel3mq6f3cr" path="res://assets/cutscenes/CS1/CS-1 F-3.png" id="5_trceg"]
+[ext_resource type="Texture2D" uid="uid://6ei52qbrv16d" path="res://assets/cutscenes/CS1/CS-1 F-4.png" id="6_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://c1gqdc5jpahpa" path="res://assets/cutscenes/CS1/CS-1 F-5.png" id="7_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://cipp6x0e6x2nm" path="res://assets/cutscenes/CS1/CS-1 F-6.png" id="8_jbj1t"]
+[ext_resource type="Texture2D" uid="uid://d2obt7u6piosg" path="res://assets/cutscenes/CS1/CS-1 F-7.png" id="9_muem4"]
+[ext_resource type="Texture2D" uid="uid://cl8hcyqotqb8n" path="res://assets/cutscenes/CS1/CS-1 F-8.png" id="10_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://c3lbry35hbuub" path="res://assets/cutscenes/CS1/CS-1 F-9.png" id="11_0ld40"]
+
+[sub_resource type="Animation" id="Animation_gqmmt"]
+resource_name = "CS1"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yc10j"]
+_data = {
+&"CS1": SubResource("Animation_gqmmt")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jscy8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ya4ey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_eb6dy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_trceg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_a8y0u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jkv2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jbj1t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_muem4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_dp3eg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0ld40")
+}],
+"loop": false,
+"name": &"cs1",
+"speed": 5.0
+}]
 
 [node name="main" type="Node2D" unique_id=1503019708]
+script = ExtResource("1_eb6dy")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800744281]
+libraries/ = SubResource("AnimationLibrary_yc10j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=817848931]
 
@@ -26,36 +81,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Container" type="HBoxContainer" parent="CanvasLayer/Control/CenterContainer" unique_id=183987280]
+[node name="buttons" type="HBoxContainer" parent="CanvasLayer/Control/CenterContainer" unique_id=183987280]
+visible = false
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_constants/separation = 19
 alignment = 1
 
-[node name="Choice1" parent="CanvasLayer/Control/CenterContainer/Container" unique_id=864464002 instance=ExtResource("2_sugp2")]
+[node name="Choice1" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
 layout_mode = 2
 button_text = "reject"
 
-[node name="Choice2" parent="CanvasLayer/Control/CenterContainer/Container" unique_id=1665484643 instance=ExtResource("2_sugp2")]
+[node name="Choice2" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
 layout_mode = 2
 button_text = "take"
 
-[node name="Choice3" parent="CanvasLayer/Control/CenterContainer/Container" unique_id=124194489 instance=ExtResource("2_sugp2")]
+[node name="Choice3" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
 layout_mode = 2
 
-[node name="Choice4" parent="CanvasLayer/Control/CenterContainer/Container" unique_id=1028354093 instance=ExtResource("2_sugp2")]
+[node name="Choice4" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
 layout_mode = 2
 
-[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control" unique_id=926117778]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 112.0
-offset_top = -166.0
-offset_right = 244.0
-offset_bottom = -99.5
-grow_vertical = 2
-max_value = 4.0
+[node name="Animated" type="AnimatedSprite2D" parent="." unique_id=947954109]
+sprite_frames = SubResource("SpriteFrames_jscy8")
+animation = &"cs1"
+speed_scale = 0.1
 
-[connection signal="value_changed" from="CanvasLayer/Control/SpinBox" to="CanvasLayer/Control" method="_on_spin_box_value_changed"]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=113694748]
+
+[connection signal="animation_finished" from="Animated" to="." method="animation_finished"]
