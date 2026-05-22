@@ -89,17 +89,22 @@ theme_override_constants/separation = 19
 alignment = 1
 
 [node name="Choice1" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
+flip_h = true
 button_text = "reject"
 
 [node name="Choice2" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 button_text = "take"
 
 [node name="Choice3" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Choice4" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Animated" type="AnimatedSprite2D" parent="." unique_id=947954109]

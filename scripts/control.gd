@@ -1,10 +1,10 @@
 extends Control
-
+ 
 @onready var buttons = [
-	$CenterContainer/Container/Choice1,
-	$CenterContainer/Container/Choice2,
-	$CenterContainer/Container/Choice3,
-	$CenterContainer/Container/Choice4
+	%Choice1,
+	%Choice2,
+	%Choice3,
+	%Choice4
 ]
 
 @export var text = [
@@ -23,3 +23,6 @@ func update():
 	for i in range(buttons.size()):
 		buttons[i].visible = i < button_count
 		
+func _ready() -> void:
+	
+	update()
