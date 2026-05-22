@@ -82,7 +82,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="buttons" type="HBoxContainer" parent="CanvasLayer/Control/CenterContainer" unique_id=183987280]
-visible = false
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_constants/separation = 19
@@ -92,12 +91,10 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 flip_h = true
-button_text = "reject"
 
 [node name="Choice2" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
-button_text = "take"
 
 [node name="Choice3" parent="CanvasLayer/Control/CenterContainer/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
@@ -107,7 +104,14 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Label" type="Label" parent="CanvasLayer/Control" unique_id=900444622]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "text"
+
 [node name="Animated" type="AnimatedSprite2D" parent="." unique_id=947954109]
+visible = false
 sprite_frames = SubResource("SpriteFrames_jscy8")
 animation = &"cs1"
 speed_scale = 0.1

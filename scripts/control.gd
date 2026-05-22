@@ -1,5 +1,7 @@
 extends Control
  
+var storymanager
+
 @onready var buttons = [
 	%Choice1,
 	%Choice2,
@@ -7,22 +9,44 @@ extends Control
 	%Choice4
 ]
 
-@export var text = [
-	"A",
-	"B",
-	"C",
-	"D"
-]
-
 var button_count = 4
 
-func update():
+func update_ui():
+	var node = storymanager.get_current()
+
+	$Label.text = node["text"]
+
+	var choices = node.get("choices", [])
+
 	for i in range(buttons.size()):
-		buttons[i].button_text = text[i]
+
+		if i < choices.size():
+			buttons[i].visible = true
+			buttons[i].button_text = choices[i]["text"]
+		else:
+			buttons[i].visible = false
 		
-	for i in range(buttons.size()):
-		buttons[i].visible = i < button_count
-		
-func _ready() -> void:
+func _ready():
+	storymanager = preload("res://scenes/story.gd").new()
+	add_child(storymanager)
+	update_ui()
+	setup_buttons()
+
+func setup_buttons():
+	for index in range(buttons.size()):
+		buttons[index].pressed.connect(func(i=index):
+			on_choice_pressed(i)
+		)
+
+func on_choice_pressed(index):
+	var node = storymanager.get_current()
+	if index >= node["choices"].size():
+		return
 	
-	update()
+	var choice = node["choices"][index]
+	
+	storymanager.go_to(choice["next"])
+	update_ui()
+	
+	
+	
