@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dg7hnnb0tg53h"]
+
+[ext_resource type="Script" uid="uid://d2kcwqxam0l15" path="res://scenes/Buttonfunc.gd" id="1_4v1mj"]
+
+[node name="Node2D" type="Node2D" unique_id=1715692711]
+
+[node name="Control" type="Control" parent="." unique_id=2077149331]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_4v1mj")
+
+[node name="Label" type="Label" parent="Control" unique_id=266797980]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 28.0
+offset_right = 794.0
+offset_bottom = 558.0
+theme_override_font_sizes/font_size = 23
+text = "KFL  Leader- programmer
+rion 2d artist
+Empath Male voice actor
+Mathers Female voice actor - Helping Artist 
+Patronarda Muisician, sfx, writer, cordinator and developer support 
+
+johnny mnemonic Programmer
+minnihelper 2nd writer
+
+R9_ Programmer
+"
+
+[node name="Back_button" type="Button" parent="Control" unique_id=1582975957]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 455.0
+offset_right = 159.0
+offset_bottom = 503.0
+theme_override_font_sizes/font_size = 29
+text = "Back"
+
+[connection signal="pressed" from="Control/Back_button" to="Control" method="_on_back_button_pressed"]

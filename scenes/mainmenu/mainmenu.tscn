@@ -20,17 +20,6 @@ loop = true
 
 [node name="main menu" type="Node2D" unique_id=691633537]
 
-[node name="Label" type="Label" parent="." unique_id=2070156317]
-offset_left = -97.0
-offset_top = 53.0
-offset_right = 679.0
-offset_bottom = 163.0
-theme_override_font_sizes/font_size = 80
-text = "Cat Burgular"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
 [node name="menu" type="CanvasLayer" parent="." unique_id=2061752900]
 
 [node name="control" type="Control" parent="menu" unique_id=666941659]
@@ -65,11 +54,26 @@ text = "credit"
 
 [node name="settings" type="Button" parent="menu/control/VBoxContainer" unique_id=1549109836]
 layout_mode = 2
-text = "setting"
+text = "settings"
 
 [node name="exist" type="Button" parent="menu/control/VBoxContainer" unique_id=2139322330]
 layout_mode = 2
-text = "exist"
+text = "exit"
+
+[node name="Label" type="Label" parent="menu/control" unique_id=2070156317]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 23.0
+offset_right = 728.0
+offset_bottom = 133.0
+theme_override_font_sizes/font_size = 72
+text = "Cat Burgular game"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 1
+visible_characters = 18
+visible_ratio = 2.25
 
 [node name="L1" type="TextureRect" parent="menu/control" unique_id=1745275691]
 z_index = -1
@@ -98,4 +102,5 @@ stream = SubResource("AudioStreamOggVorbis_1css7")
 autoplay = true
 
 [connection signal="pressed" from="menu/control/VBoxContainer/play" to="menu/control" method="on_play"]
+[connection signal="pressed" from="menu/control/VBoxContainer/credit" to="menu/control" method="_on_credit_pressed"]
 [connection signal="pressed" from="menu/control/VBoxContainer/exist" to="menu/control" method="on_exist"]

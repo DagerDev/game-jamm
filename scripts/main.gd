@@ -9,3 +9,7 @@ func _ready() -> void:
 
 func animation_finished() -> void:
 	pass
+
+
+func _on_choice_3_pressed() -> void:
+	pass # Replace with function body.

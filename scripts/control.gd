@@ -11,6 +11,9 @@ var storymanager
 
 var button_count = 4
 
+	
+
+
 func update_ui():
 	var node = storymanager.get_current()
 
@@ -38,7 +41,13 @@ func setup_buttons():
 			on_choice_pressed(i)
 		)
 
+
+
+
+
 func on_choice_pressed(index):
+
+	create_buttons(node["choices"])
 	var node = storymanager.get_current()
 	if index >= node["choices"].size():
 		return
