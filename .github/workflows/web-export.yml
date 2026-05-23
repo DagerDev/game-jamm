@@ -9,22 +9,20 @@ jobs:
   export-web:
     runs-on: ubuntu-latest
 
+    container:
+      image: barichello/godot-ci:4.6
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Export Godot Web Build
-        uses: firebelley/godot-export@v7.0.0
-        with:
-          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_linux.x86_64.zip
+      - name: Create Build Folder
+        run: mkdir -p build/web
 
-          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
+      - name: Export Web
+        run: godot --headless --export-release "Web" build/web/index.html
 
-          relative_project_path: ./
-
-          use_preset_export_path: true
-
-      - name: Upload Web Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-build
