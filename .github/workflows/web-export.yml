@@ -2,10 +2,10 @@ name: "Godot Web Export"
 on:
   push:
     branches:
-      - main  # Triggers the build whenever you push to main
+      - main
 
 permissions:
-  contents: write  # Allows the action to create releases and upload zip assets
+  contents: write  # Crucial: Grants permission to write artifacts and files
 
 jobs:
   export_web:
@@ -14,13 +14,19 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
+        with:
+          # Fixes git terminal prompt failures by embedding token authorization
+          token: ${{ secrets.GITHUB_TOKEN }} 
 
       - name: Export Game using Firebelley Action
         id: export
         uses: firebelley/godot-export@v7.0.0
+        env:
+          # Suppresses the Node 20 runner deprecation warnings
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
-          # Match URLs exactly to Godot 4.6.2-stable Linux Headless & Templates
           godot_executable_download_url: https://tuxfamily.org
           godot_export_templates_download_url: https://tuxfamily.org
           relative_project_path: ./
-          archive_output: true  # Zips your HTML5 game files together
+          archive_output: true
+          cache: false # Fixes /usr/bin/7z exit code 2 errors caused by invalid folder caching
