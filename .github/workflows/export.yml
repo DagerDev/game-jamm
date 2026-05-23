@@ -21,10 +21,10 @@ jobs:
         id: export
         uses: firebelley/godot-export@v7.0.0
         with:
-          # Quotes ensure the full links are read correctly by the runner
           godot_executable_download_url: "https://github.com"
           godot_export_templates_download_url: "https://github.com"
-          relative_project_path: ./
+          # CRITICAL FIX: Direct the path into your subfolder
+          relative_project_path: "./game-jamm"
           archive_output: true
           cache: false
           verbose: true
