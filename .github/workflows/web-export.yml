@@ -21,7 +21,10 @@ jobs:
         id: export
         uses: firebelley/godot-export@v7.0.0
         with:
+          # GitHub Mirror URLs (More stable than TuxFamily)
           godot_executable_download_url: https://github.com
           godot_export_templates_download_url: https://github.com
           relative_project_path: ./
           archive_output: true
+          cache: false   # CRITICAL: Forces a fresh download to fix the "poisoned" file
+          verbose: true  # CRITICAL: Shows the real error if it fails again
