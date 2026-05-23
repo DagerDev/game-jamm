@@ -1,4 +1,4 @@
-name: Debug Godot
+name: Godot Full Debug Export
 
 on:
   push:
@@ -6,23 +6,27 @@ on:
       - main
 
 jobs:
-  debug:
+  export:
     runs-on: ubuntu-latest
 
     container:
       image: barichello/godot-ci:4.6
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Show Files
+      - name: Show project structure
         run: |
-          pwd
-          ls
-          ls -R
+          echo "=== ROOT ==="
+          ls -la
+          echo "=== PROJECT ==="
+          find . -maxdepth 3 -type f
 
-      - name: Check Godot Version
-        run: godot --version
+      - name: Check Godot
+        run: |
+          godot --version
 
-      - name: Try Headless Import
-        run: godot --headless --verbose --quit
+      - name: Run export WITH FULL LOG
+        run: |
+          godot --headless --verbose --export-release "Web" build/web/index.html
