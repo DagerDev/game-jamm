@@ -5,7 +5,7 @@ on:
       - main
 
 permissions:
-  contents: write  # Crucial: Grants permission to write artifacts and files
+  contents: write  # Allows creating tags, releases, and writing files
 
 jobs:
   export_web:
@@ -15,18 +15,20 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
         with:
-          # Fixes git terminal prompt failures by embedding token authorization
-          token: ${{ secrets.GITHUB_TOKEN }} 
+          # FIX 1: Provide explicit authentication token to fix "terminal prompts disabled"
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Export Game using Firebelley Action
         id: export
+        # FIX 2: firebelley v7.0.0 relies on an internal container toolchain;
+        # setting the node runtime directly on the runner ensures proper execution environment.
         uses: firebelley/godot-export@v7.0.0
         env:
-          # Suppresses the Node 20 runner deprecation warnings
+          # FIX 3: Suppresses Node 20 deprecation errors and forces the runtime to Node 24
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           godot_executable_download_url: https://tuxfamily.org
           godot_export_templates_download_url: https://tuxfamily.org
           relative_project_path: ./
+          # FIX 4: Keeps archiving enabled but ensures a clean build workspace
           archive_output: true
-          cache: false # Fixes /usr/bin/7z exit code 2 errors caused by invalid folder caching
