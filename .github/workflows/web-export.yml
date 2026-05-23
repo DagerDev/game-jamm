@@ -1,4 +1,4 @@
-name: Export Web
+name: Godot Web Export
 
 on:
   push:
@@ -13,21 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Export Godot Web
+      - name: Export Godot Project
         id: export
         uses: firebelley/godot-export@v7.0.0
         with:
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
-
+          
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
-
+          
           relative_project_path: ./
-
-          presets_to_export: Web
-
+          
           use_preset_export_path: true
 
-      - name: Upload Artifact
+      - name: Upload Web Build
         uses: actions/upload-artifact@v4
         with:
           name: web-build
