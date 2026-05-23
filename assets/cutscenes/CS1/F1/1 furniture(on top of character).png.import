@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3lbry35hbuub"
-path="res://.godot/imported/CS-1 F-9.png-97a997cfb3b2b510be94230aced833ee.ctex"
+uid="uid://f8kty54vf000"
+path="res://.godot/imported/1 furniture(on top of character).png-914327c2b6ad894950714f1d5d2c6f25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cutscenes/CS1/CS-1 F-9.png"
-dest_files=["res://.godot/imported/CS-1 F-9.png-97a997cfb3b2b510be94230aced833ee.ctex"]
+source_file="res://assets/cutscenes/CS1/F1/1 furniture(on top of character).png"
+dest_files=["res://.godot/imported/1 furniture(on top of character).png-914327c2b6ad894950714f1d5d2c6f25.ctex"]
 
 [params]
 

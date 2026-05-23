@@ -18,7 +18,9 @@ var nodes := {
 
 	"fail_entrance": {
 		"text": "You ran straight into guards. You got caught.",
-		"choices": []
+		"choices": [
+			{"text": "try again", "next": "start"}
+			]
 	},
 
 	"vent_path": {
@@ -36,7 +38,9 @@ var nodes := {
 
 	"trap_room": {
 		"text": "It was a trap. You fall into a locked chamber.",
-		"choices": []
+		"choices": [
+			{"text": "Try again", "next": "vent_path"}
+		]
 	},
 
 	"control_room": {
