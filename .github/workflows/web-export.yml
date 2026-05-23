@@ -1,27 +1,26 @@
-name: Web Export
-
+name: "Godot Web Export"
 on:
   push:
     branches:
-      - main
+      - main  # Triggers the build whenever you push to main
+
+permissions:
+  contents: write  # Allows the action to create releases and upload zip assets
 
 jobs:
-  export:
+  export_web:
+    name: Web Export
     runs-on: ubuntu-latest
-
-    container:
-      image: barichello/godot-ci:4.6
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
 
-      - name: Export Web
-        run: |
-          mkdir -p build/web
-          godot --headless --verbose --export 0 build/web/index.html
-
-      - name: Upload
-        uses: actions/upload-artifact@v4
+      - name: Export Game using Firebelley Action
+        id: export
+        uses: firebelley/godot-export@v7.0.0
         with:
-          name: web-build
-          path: build/web
+          # Match URLs exactly to Godot 4.6.2-stable Linux Headless & Templates
+          godot_executable_download_url: https://tuxfamily.org
+          godot_export_templates_download_url: https://tuxfamily.org
+          relative_project_path: ./
+          archive_output: true  # Zips your HTML5 game files together
