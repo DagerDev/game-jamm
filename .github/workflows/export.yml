@@ -19,7 +19,8 @@ jobs:
   
     - name: Export Game using Firebelley Action
       id: export
-      uses: firebelley/godot-export@v7.1.0
+      # Reverting back to the correct stable action release tag
+      uses: firebelley/godot-export@v7.0.0
       with:
         godot_executable_download_url: "https://github.com"
         godot_export_templates_download_url: "https://github.com"
@@ -28,7 +29,6 @@ jobs:
         cache: false
         verbose: true
         use_preset_export_path: false
-        # FORCE PRESET NAME: Ensures the runner finds your local export settings
         export_preset_name: "Web" 
 
     - name: Create GitHub Release Artifact
