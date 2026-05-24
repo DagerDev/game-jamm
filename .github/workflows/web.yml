@@ -16,16 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Export Godot Web
+      - name: Export Godot Project
         uses: firebelley/godot-export@v6.0.0
         with:
-          godotVersion: 4.6.2
-          exportPreset: Web
-          projectPath: .
-          archiveOutput: false
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
+          relative_project_path: .
+          presets_to_export: Web
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/Web
+          publish_dir: ./exports/Web
