@@ -14,16 +14,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Godot
+      - name: Download Godot
         run: |
           wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
           unzip Godot_v4.6-stable_linux.x86_64.zip
           chmod +x Godot_v4.6-stable_linux.x86_64
 
+      - name: Download export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.6.stable
+          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
+          unzip Godot_v4.6-stable_export_templates.tpz -d templates
+
       - name: Export Web
         run: |
           mkdir -p build
-          ./Godot_v4.6-stable_linux.x86_64 --headless --export-release "Web" build/index.html
+          ./Godot_v4.6-stable_linux.x86_64 --headless \
+            --export-release "Web" build/index.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
