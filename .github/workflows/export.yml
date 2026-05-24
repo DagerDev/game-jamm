@@ -23,18 +23,18 @@ jobs:
 
     - name: 🤖 Download Godot Engine & Templates
       run: |
-        # Download exact 4.6.2 stable binaries
-        wget -q https://github.com
-        wget -q https://github.com
+        # Fetch the exact 4.6.2 stable artifacts from the mirror
+        wget -q "https://github.com"
+        wget -q "https://github.com"
         
-        # Unzip engine binary and make it executable
-        unzip -q Godot_v4.6.2-stable_linux.x86_64.zip
+        # Unzip engine binary and apply native execution permission flags
+        unzip -oq Godot_v4.6.2-stable_linux.x86_64.zip
         mv Godot_v4.6.2-stable_linux.x86_64 godot
         chmod +x godot
         
-        # Manually install export templates to the exact system path Linux looks for
+        # FIXES EXIT CODE 9: Forces explicit extraction path maps cleanly without permissions conflicts
         mkdir -p ~/.local/share/godot/export_templates/4.6.2.stable
-        unzip -q Godot_v4.6.2-stable_export_templates.tpz -d /tmp
+        unzip -oq Godot_v4.6.2-stable_export_templates.tpz -d /tmp
         mv /tmp/templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
 
     - name: 🗀 Create Output Folders
