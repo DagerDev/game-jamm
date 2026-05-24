@@ -10,4 +10,4 @@ func on_exist() -> void:
 
 
 func _on_credit_pressed() -> void:
-	pass
+	get_tree().change_scene_to_file("res://scenes/The_Team.tscn")
