@@ -9,33 +9,52 @@ permissions:
   contents: write
 
 jobs:
-  export:
-    name: Export Game
+  export_game:
     runs-on: ubuntu-latest
-
+    name: Native Godot Export
     steps:
-      - name: 📦 Checkout Source Code
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: 📦 Checkout Source Code
+      uses: actions/checkout@v4
 
-      - name: 🚀 Export Game using Firebelley Action
-        id: export
-        uses: firebelley/godot-export@v7.0.0
-        with:
-          # Reliable permanent download mirrors for Godot 4.6.2 stable
-          godot_executable_download_url: "https://github.com"
-          godot_export_templates_download_url: "https://github.com"
-          relative_project_path: "./"  
-          archive_output: true
-          cache: false
-          verbose: true
-          use_preset_export_path: false
+    - name: 🛠️ Install Linux Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget unzip zip
 
-      - name: 📢 Create GitHub Release Artifact
-        uses: ncipollo/release-action@v1.14.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          generateReleaseNotes: true
-          tag: "build-${{ github.run_number }}"
-          artifacts: ${{ steps.export.outputs.archive_directory }}/*
+    - name: 🤖 Download Godot Engine & Templates
+      run: |
+        # Download exact 4.6.2 stable binaries
+        wget -q https://github.com
+        wget -q https://github.com
+        
+        # Unzip engine binary and make it executable
+        unzip -q Godot_v4.6.2-stable_linux.x86_64.zip
+        mv Godot_v4.6.2-stable_linux.x86_64 godot
+        chmod +x godot
+        
+        # Manually install export templates to the exact system path Linux looks for
+        mkdir -p ~/.local/share/godot/export_templates/4.6.2.stable
+        unzip -q Godot_v4.6.2-stable_export_templates.tpz -d /tmp
+        mv /tmp/templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
+
+    - name: 🗀 Create Output Folders
+      run: mkdir -p builds/web
+
+    - name: 🔄 Initialize Godot Resource Cache
+      run: ./godot --headless --editor --quit --path ./
+
+    - name: 🚀 Compile Web Release Build
+      run: ./godot --headless --path ./ --export-release "Web" ./builds/web/index.html
+
+    - name: 🗎 Create Production Zip Archive
+      run: |
+        cd builds/web
+        zip -r ../../web-build.zip .
+
+    - name: 📢 Create GitHub Release Artifact
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        generateReleaseNotes: true
+        tag: "build-${{ github.run_number }}"
+        artifacts: "web-build.zip"
