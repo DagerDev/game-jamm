@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dr8b1m2gxs6p2"]
 
-[ext_resource type="Texture2D" uid="uid://cbggaqi2djqx8" path="res://assets/icon.svg" id="1_al1dj"]
+[ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="1_al1dj"]
 [ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://scripts/choice.gd" id="2_6d6hr"]
 
 [node name="Choice" type="TextureButton" unique_id=1665484643]

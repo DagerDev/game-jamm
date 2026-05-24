@@ -1,6 +1,14 @@
 [gd_scene format=3 uid="uid://dg7hnnb0tg53h"]
 
-[ext_resource type="Script" uid="uid://d2kcwqxam0l15" path="res://scenes/Buttonfunc.gd" id="1_4v1mj"]
+[sub_resource type="GDScript" id="GDScript_0mslb"]
+script/source = "extends Control
+
+
+
+
+func _on_back_button_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://scenes/mainmenu/mainmenu.tscn\")
+"
 
 [node name="Node2D" type="Node2D" unique_id=1715692711]
 
@@ -9,7 +17,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_4v1mj")
+script = SubResource("GDScript_0mslb")
 
 [node name="Label" type="Label" parent="Control" unique_id=266797980]
 layout_mode = 0

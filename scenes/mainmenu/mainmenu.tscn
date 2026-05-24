@@ -72,8 +72,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 max_lines_visible = 1
-visible_characters = 18
-visible_ratio = 2.25
 
 [node name="L1" type="TextureRect" parent="menu/control" unique_id=1745275691]
 z_index = -1
