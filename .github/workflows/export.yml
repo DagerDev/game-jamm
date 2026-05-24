@@ -23,11 +23,12 @@ jobs:
       with:
         godot_executable_download_url: "https://github.com"
         godot_export_templates_download_url: "https://github.com"
-        # CORRECT FIXED PATH: Your files are at the root level!
         relative_project_path: "./"  
         archive_output: true
         cache: false
         verbose: true
+        # FIXES THE 7Z ERROR: Forces the runner to make a safe export folder
+        use_preset_export_path: false
 
     - name: Create GitHub Release Artifact
       uses: ncipollo/release-action@v1.14.0
