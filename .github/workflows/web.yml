@@ -1,30 +1,31 @@
-on: 
+name: Godot Web Export
+
+on:
   push:
     branches:
-      - main # Triggers on standard code pushes to main
+      - main
 
 jobs:
-  export_game:
+  export-web:
     runs-on: ubuntu-latest
-    permissions: write-all # Crucial for creating releases
-    name: Export Game
-    steps:
-    - name: checkout
-      uses: actions/checkout@v5
-  
-    - name: export game
-      id: export
-      uses: firebelley/godot-export@v7.0.0
-      with:
-        godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_linux.x86_64.zip
-        godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_export_templates.tpz
-        relative_project_path: ./
-        archive_output: true
 
-    - name: create release
-      uses: ncipollo/release-action@v1.18.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        generateReleaseNotes: true
-        tag: "v${{ github.run_number }}" # Generates a unique tag automatically (e.g. v1, v2)
-        artifacts: ${{ steps.export.outputs.archive_directory }}/*
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Export Godot Web
+        uses: firebelley/godot-export@v6.0.0
+        with:
+          godotVersion: 4.6.2
+          exportPreset: Web
+          projectPath: .
+          archiveOutput: false
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/Web
