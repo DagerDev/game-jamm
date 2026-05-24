@@ -26,11 +26,12 @@ jobs:
       - name: 🗀 Create Export Directory Location
         run: mkdir -p builds/web
 
+      - name: 🔄 Initialize Asset Import Cache
+        # CRITICAL FIX: Forces Godot to scan resources and generate the missing hidden metadata
+        run: godot --headless --editor --quit --path ./
+
       - name: 🚀 Export Web Preset
-        # Fixes pathing layout by forcing Godot to run cleanly out of the checkout directory root
-        run: |
-          cd $GITHUB_WORKSPACE
-          godot --headless --export-release "Web" ./builds/web/index.html
+        run: godot --headless --export-release "Web" ./builds/web/index.html
 
       - name: 🗎 Compress Web Files
         run: |
