@@ -32,10 +32,17 @@ jobs:
         mv Godot_v4.6.2-stable_linux.x86_64 godot
         chmod +x godot
         
-        # FIXES EXIT CODE 9: Forces explicit extraction path maps cleanly without permissions conflicts
+        # FIXES EXIT CODE 9: Avoids unzip path creation faults by creating the target folder first
         mkdir -p ~/.local/share/godot/export_templates/4.6.2.stable
-        unzip -oq Godot_v4.6.2-stable_export_templates.tpz -d /tmp
-        mv /tmp/templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
+        
+        # Rename .tpz to .zip to force standard safe inflation mapping
+        mv Godot_v4.6.2-stable_export_templates.tpz templates.zip
+        unzip -oq templates.zip -d ~/.local/share/godot/export_templates/4.6.2.stable/
+        
+        # Move internal template files up one directory level if they extracted into a nested folder
+        if [ -d "~/.local/share/godot/export_templates/4.6.2.stable/templates" ]; then
+          mv ~/.local/share/godot/export_templates/4.6.2.stable/templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
+        fi
 
     - name: 🗀 Create Output Folders
       run: mkdir -p builds/web
