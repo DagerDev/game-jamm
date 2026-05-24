@@ -1,30 +1,37 @@
 name: "Godot Web Export"
-on:
+
+on: 
   push:
     branches:
-      - main
-
-permissions:
-  contents: write
+      - main  # Runs automatically every time you push code to your main branch
 
 jobs:
-  export_web:
-    name: Web Export
+  export_game:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    name: Export Game
     steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+  
+    - name: Export Game using Firebelley Action
+      id: export
+      uses: firebelley/godot-export@v7.0.0
+      with:
+        godot_executable_download_url: "https://github.com"
+        godot_export_templates_download_url: "https://github.com"
+        relative_project_path: "./game-jamm"  # Directs the action to look inside your nested game folder
+        archive_output: true
+        cache: false
+        verbose: true
 
-      - name: Export Game using Firebelley Action
-        id: export
-        uses: firebelley/godot-export@v7.0.0
-        with:
-          godot_executable_download_url: "https://github.com"
-          godot_export_templates_download_url: "https://github.com"
-          # CRITICAL FIX: Direct the path into your subfolder
-          relative_project_path: "./game-jamm"
-          archive_output: true
-          cache: false
-          verbose: true
+    - name: Create GitHub Release Artifact
+      uses: ncipollo/release-action@v1.14.0  # Stable, updated node runtime release manager
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        generateReleaseNotes: true
+        tag: "build-${{ github.run_number }}" # Automatically creates a unique tag version number per build
+        artifacts: ${{ steps.export.outputs.archive_directory }}/*
