@@ -9,59 +9,36 @@ permissions:
   contents: write
 
 jobs:
-  export_game:
+  export:
+    name: Export Game
     runs-on: ubuntu-latest
-    name: Native Godot Export
+
     steps:
-    - name: 📦 Checkout Source Code
-      uses: actions/checkout@v4
+      - name: 📦 Checkout Source Code
+        uses: actions/checkout@v4
 
-    - name: 🛠️ Install Linux Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget unzip zip
+      - name: 🤖 Setup Godot 4.6.2
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.2
+          # FIXED TYPO: Changed dash to underscore
+          use_templates: true 
 
-    - name: 🤖 Download Godot Engine & Templates
-      run: |
-        # Fetch the exact 4.6.2 stable artifacts from the mirror
-        wget -q "https://github.com"
-        wget -q "https://github.com"
-        
-        # Unzip engine binary and apply native execution permission flags
-        unzip -oq Godot_v4.6.2-stable_linux.x86_64.zip
-        mv Godot_v4.6.2-stable_linux.x86_64 godot
-        chmod +x godot
-        
-        # FIXES EXIT CODE 9: Avoids unzip path creation faults by creating the target folder first
-        mkdir -p ~/.local/share/godot/export_templates/4.6.2.stable
-        
-        # Rename .tpz to .zip to force standard safe inflation mapping
-        mv Godot_v4.6.2-stable_export_templates.tpz templates.zip
-        unzip -oq templates.zip -d ~/.local/share/godot/export_templates/4.6.2.stable/
-        
-        # Move internal template files up one directory level if they extracted into a nested folder
-        if [ -d "~/.local/share/godot/export_templates/4.6.2.stable/templates" ]; then
-          mv ~/.local/share/godot/export_templates/4.6.2.stable/templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
-        fi
+      - name: 🗀 Create Export Directory Location
+        run: mkdir -p builds/web
 
-    - name: 🗀 Create Output Folders
-      run: mkdir -p builds/web
+      - name: 🚀 Export Web Preset
+        run: godot --headless --export-release "Web" builds/web/index.html
 
-    - name: 🔄 Initialize Godot Resource Cache
-      run: ./godot --headless --editor --quit --path ./
+      - name: 🗎 Compress Web Files
+        run: |
+          cd builds/web
+          zip -r ../../web-build.zip .
 
-    - name: 🚀 Compile Web Release Build
-      run: ./godot --headless --path ./ --export-release "Web" ./builds/web/index.html
-
-    - name: 🗎 Create Production Zip Archive
-      run: |
-        cd builds/web
-        zip -r ../../web-build.zip .
-
-    - name: 📢 Create GitHub Release Artifact
-      uses: ncipollo/release-action@v1.14.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        generateReleaseNotes: true
-        tag: "build-${{ github.run_number }}"
-        artifacts: "web-build.zip"
+      - name: 📢 Create GitHub Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: "build-${{ github.run_number }}"
+          artifacts: "web-build.zip"
