@@ -20,15 +20,14 @@ jobs:
       - name: 🤖 Setup Godot 4.6.2
         uses: chickensoft-games/setup-godot@v2
         with:
-          version: 4.6.2
-          # FIXED TYPO: Changed dash to underscore
-          use_templates: true 
+          version: 4.6.2  # Templates are handled automatically by the action runner
 
       - name: 🗀 Create Export Directory Location
         run: mkdir -p builds/web
 
       - name: 🚀 Export Web Preset
-        run: godot --headless --export-release "Web" builds/web/index.html
+        # Direct path routing avoids native OS file emission failure
+        run: godot --headless --export-release "Web" ./builds/web/index.html
 
       - name: 🗎 Compress Web Files
         run: |
