@@ -3,7 +3,7 @@ name: "Godot Web Export"
 on: 
   push:
     branches:
-      - main  # Runs automatically every time you push code to your main branch
+      - main
 
 jobs:
   export_game:
@@ -23,15 +23,16 @@ jobs:
       with:
         godot_executable_download_url: "https://github.com"
         godot_export_templates_download_url: "https://github.com"
-        relative_project_path: "./game-jamm"  # Directs the action to look inside your nested game folder
+        # CORRECT FIXED PATH: Your files are at the root level!
+        relative_project_path: "./"  
         archive_output: true
         cache: false
         verbose: true
 
     - name: Create GitHub Release Artifact
-      uses: ncipollo/release-action@v1.14.0  # Stable, updated node runtime release manager
+      uses: ncipollo/release-action@v1.14.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
-        tag: "build-${{ github.run_number }}" # Automatically creates a unique tag version number per build
+        tag: "build-${{ github.run_number }}"
         artifacts: ${{ steps.export.outputs.archive_directory }}/*
