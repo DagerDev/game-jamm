@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-  
+
     - name: Export Game using Firebelley Action
       id: export
       uses: firebelley/godot-export@v7.0.0
@@ -27,6 +27,7 @@ jobs:
         archive_output: true
         cache: false
         verbose: true
+        # Crucial Fixes: Force directory generation override
         use_preset_export_path: false
 
     - name: Create GitHub Release Artifact
