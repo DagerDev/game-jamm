@@ -16,32 +16,26 @@ jobs:
     steps:
       - name: 📦 Checkout Source Code
         uses: actions/checkout@v4
-
-      - name: 🤖 Setup Godot 4.6.2
-        uses: chickensoft-games/setup-godot@v2
         with:
-          version: 4.6.2
-          include-templates: true  
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🗀 Create Export Directory Location
-        run: mkdir -p builds/web
+      - name: 🚀 Export Game using Firebelley Action
+        id: export
+        uses: firebelley/godot-export@v7.0.0
+        with:
+          # Reliable permanent download mirrors for Godot 4.6.2 stable
+          godot_executable_download_url: "https://github.com"
+          godot_export_templates_download_url: "https://github.com"
+          relative_project_path: "./"  
+          archive_output: true
+          cache: false
+          verbose: true
+          use_preset_export_path: false
 
-      - name: 🔄 Initialize Asset Import Cache
-        # CRITICAL FIX: Forces Godot to scan resources and generate the missing hidden metadata
-        run: godot --headless --editor --quit --path ./
-
-      - name: 🚀 Export Web Preset
-        run: godot --headless --export-release "Web" ./builds/web/index.html
-
-      - name: 🗎 Compress Web Files
-        run: |
-          cd builds/web
-          zip -r ../../web-build.zip .
-
-      - name: 📢 Create GitHub Release
+      - name: 📢 Create GitHub Release Artifact
         uses: ncipollo/release-action@v1.14.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
           tag: "build-${{ github.run_number }}"
-          artifacts: "web-build.zip"
+          artifacts: ${{ steps.export.outputs.archive_directory }}/*
