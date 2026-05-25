@@ -88,9 +88,7 @@ func on_exist() -> void:
 
 
 func _on_credit_pressed() -> void:
-<<<<<<< HEAD
-	get_tree().change_scene_to_file("res://scenes/The_Team.tscn")
-=======
+	# patronarda please im workinng on credits
 	pass
 
 
@@ -114,4 +112,3 @@ func set_bus_volume(bus_name, value):
 			bus_index,
 			linear_to_db(value)
 			)
->>>>>>> 8e273ad (main menu settings)
