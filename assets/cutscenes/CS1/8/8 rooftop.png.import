@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f8kty54vf000"
-path="res://.godot/imported/1 furniture(on top of character).png-914327c2b6ad894950714f1d5d2c6f25.ctex"
+uid="uid://ccgk61jmy3fng"
+path="res://.godot/imported/8 rooftop.png-589ea972b9adba96eff90b74ac58dc5a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cutscenes/CS1/F1/1 furniture(on top of character).png"
-dest_files=["res://.godot/imported/1 furniture(on top of character).png-914327c2b6ad894950714f1d5d2c6f25.ctex"]
+source_file="res://assets/cutscenes/CS1/8/8 rooftop.png"
+dest_files=["res://.godot/imported/8 rooftop.png-589ea972b9adba96eff90b74ac58dc5a.ctex"]
 
 [params]
 

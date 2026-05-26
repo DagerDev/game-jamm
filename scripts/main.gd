@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var ani = $Animated
+@onready var ani = %animation
 @onready var buttons = $CanvasLayer/Control/CenterContainer/buttons
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	ani.play("Intro")
 
 
 func animation_finished() -> void:

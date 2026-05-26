@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://3wh07r6dgcly"]
 
 [ext_resource type="Script" uid="uid://c54rs6sdtv0bx" path="res://scenes/mainmenu/control.gd" id="1_1css7"]
-[ext_resource type="Texture2D" uid="uid://by858w353cfg" path="res://assets/cutscenes/CS1/F1/1 bg.png" id="2_oktx4"]
-[ext_resource type="Texture2D" uid="uid://f8kty54vf000" path="res://assets/cutscenes/CS1/F1/1 furniture(on top of character).png" id="3_ckupo"]
+[ext_resource type="Texture2D" uid="uid://by858w353cfg" path="res://assets/cutscenes/CS1/1/1 bg.png" id="2_oktx4"]
+[ext_resource type="Texture2D" uid="uid://f8kty54vf000" path="res://assets/cutscenes/CS1/1/1 furniture(on top of character).png" id="3_ckupo"]
+[ext_resource type="Texture2D" uid="uid://lj3i7hcs8kp8" path="res://assets/cutscenes/CS1/3/3 bg.png" id="4_2x7eg"]
 [ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="4_fi8nj"]
+[ext_resource type="Texture2D" uid="uid://bllvqgsysj2v0" path="res://assets/cutscenes/CS1/3/3 character.png" id="5_ugunp"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_fi8nj"]
 color = Color(0.99883217, 0.97580665, 0.95827323, 1)
@@ -67,30 +69,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 max_lines_visible = 1
-metadata/_edit_lock_ = true
-
-[node name="L1" type="TextureRect" parent="menu/control" unique_id=1745275691]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("2_oktx4")
-metadata/_edit_lock_ = true
-
-[node name="L2" type="TextureRect" parent="menu/control" unique_id=1758887102]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("3_ckupo")
 metadata/_edit_lock_ = true
 
 [node name="Settings" type="Panel" parent="menu/control" unique_id=253896915]
@@ -228,6 +206,67 @@ theme_override_font_sizes/font_size = 20
 text = "Close
 "
 flat = true
+
+[node name="L1" type="TextureRect" parent="menu/control" unique_id=1745275691]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 760.0
+offset_bottom = 560.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_oktx4")
+stretch_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="L2" type="TextureRect" parent="menu/control" unique_id=1758887102]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 760.0
+offset_bottom = 560.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_ckupo")
+stretch_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="V1" type="TextureRect" parent="menu/control" unique_id=1347416034]
+visible = false
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_2x7eg")
+stretch_mode = 2
+
+[node name="V2" type="TextureRect" parent="menu/control/V1" unique_id=1747016869]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_ugunp")
+stretch_mode = 2
+
+[node name="background" type="Control" parent="menu" unique_id=915260636]
+z_index = -1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=175836862]
 bus = &"Music"
