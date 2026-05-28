@@ -213,32 +213,26 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 760.0
-offset_bottom = 560.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(275, 150)
 mouse_filter = 2
 texture = ExtResource("2_oktx4")
 stretch_mode = 2
-metadata/_edit_lock_ = true
 
-[node name="L2" type="TextureRect" parent="menu/control" unique_id=1758887102]
-z_index = -1
+[node name="L2" type="TextureRect" parent="menu/control/L1" unique_id=1758887102]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 760.0
-offset_bottom = 560.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(400, 300)
 mouse_filter = 2
 texture = ExtResource("3_ckupo")
 stretch_mode = 2
-metadata/_edit_lock_ = true
 
 [node name="V1" type="TextureRect" parent="menu/control" unique_id=1347416034]
-visible = false
 z_index = -1
 layout_mode = 1
 anchors_preset = 15

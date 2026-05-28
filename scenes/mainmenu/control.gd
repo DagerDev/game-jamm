@@ -5,12 +5,21 @@ extends Control
 @onready var sfx_slider = %SFX
 @onready var menu = $VBoxContainer
 @onready var settings = $Settings
+@onready var background= $L1
+@onready var credits = $V1
 
 var menu_start_pos
+var start_size
+var targetS
+var target_size := Vector2(2, 2)
 
 func _ready():
 	menu_start_pos = menu.position
+	start_size = background.size
+	settings.position = menu_start_pos
 	settings.visible = false
+	credits.visible = false
+	credits.modulate.a = 0
 	settings.modulate.a = 0
 	
 	master_slider.value_changed.connect(_on_master_changed)
@@ -39,10 +48,17 @@ func _on_settings_button_pressed():
 	# settings fades in
 	tween.parallel().tween_property(
 		settings,
+		"position",
+		menu_start_pos,
+		0.4
+		)
+		
+	tween.parallel().tween_property(
+		settings,
 		"modulate:a",
 		1.0,
 		0.4
-		)
+	)
 
 
 func _on_back_button_pressed():
@@ -64,20 +80,19 @@ func _on_back_button_pressed():
 	)
 
 	# settings fades out
+	
+	tween.parallel().tween_property(
+		settings,
+		"position:x",
+		menu.position.x - 300,
+		0.4
+		)
 	tween.parallel().tween_property(
 		settings,
 		"modulate:a",
 		0.0,
 		0.4
-	)
-	
-	tween.finished.connect(_hide_settings)
-
-
-func _hide_settings():
-	settings.visible = false
-
-
+		)
 
 func on_play() -> void:
 	get_tree().change_scene_to_file.call_deferred("res://scenes/main.tscn")
@@ -88,8 +103,30 @@ func on_exist() -> void:
 
 
 func _on_credit_pressed() -> void:
-	# patronarda please im workinng on credits
-	pass
+	credits.visible = true
+	var tween = create_tween()
+	
+	tween.parallel().tween_property(
+		background,
+		"scale",
+		 target_size,
+		0.5
+	)
+	
+	tween.parallel().tween_property(
+		background,
+		"modulate",
+		Color(),
+		0.4
+	)
+	
+	tween.parallel().tween_property(
+		credits,
+		"modulate:a",
+		1.0,
+		0.7
+	)
+	
 
 
 func _on_master_changed(value):
