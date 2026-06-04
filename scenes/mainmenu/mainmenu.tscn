@@ -15,11 +15,9 @@ thickness = 4
 color = Color(0.55880713, 0.3020934, 0.10098808, 1)
 thickness = 4
 
-[node name="main menu" type="Node2D" unique_id=691633537]
+[node name="menu" type="CanvasLayer" unique_id=2061752900]
 
-[node name="menu" type="CanvasLayer" parent="." unique_id=2061752900]
-
-[node name="control" type="Control" parent="menu" unique_id=666941659]
+[node name="control" type="Control" parent="." unique_id=666941659]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +27,7 @@ grow_vertical = 2
 script = ExtResource("1_1css7")
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="menu/control" unique_id=474045177]
+[node name="VBoxContainer" type="VBoxContainer" parent="control" unique_id=474045177]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -41,37 +39,36 @@ offset_bottom = 127.0
 grow_vertical = 2
 scale = Vector2(2, 2)
 
-[node name="play" type="Button" parent="menu/control/VBoxContainer" unique_id=1905728543]
+[node name="play" type="Button" parent="control/VBoxContainer" unique_id=1905728543]
 layout_mode = 2
 text = "play"
 
-[node name="credit" type="Button" parent="menu/control/VBoxContainer" unique_id=1414574137]
+[node name="credit" type="Button" parent="control/VBoxContainer" unique_id=1414574137]
 layout_mode = 2
 text = "credit"
 
-[node name="settings" type="Button" parent="menu/control/VBoxContainer" unique_id=1549109836]
+[node name="settings" type="Button" parent="control/VBoxContainer" unique_id=1549109836]
 layout_mode = 2
 text = "settings"
 
-[node name="exist" type="Button" parent="menu/control/VBoxContainer" unique_id=2139322330]
+[node name="exist" type="Button" parent="control/VBoxContainer" unique_id=2139322330]
 layout_mode = 2
 text = "exit"
 
-[node name="Label" type="Label" parent="menu/control" unique_id=2070156317]
+[node name="Label" type="Label" parent="control" unique_id=2070156317]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 23.0
 offset_right = 728.0
 offset_bottom = 133.0
 theme_override_font_sizes/font_size = 72
-text = "Cat Burgular game"
-horizontal_alignment = 1
+text = "Break the Bank!"
 vertical_alignment = 1
 autowrap_mode = 3
 max_lines_visible = 1
 metadata/_edit_lock_ = true
 
-[node name="Settings" type="Panel" parent="menu/control" unique_id=253896915]
+[node name="Settings" type="Panel" parent="control" unique_id=253896915]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -82,7 +79,7 @@ offset_right = 400.0
 offset_bottom = 166.0
 grow_vertical = 2
 
-[node name="Settings" type="Label" parent="menu/control/Settings" unique_id=1797065762]
+[node name="Settings" type="Label" parent="control/Settings" unique_id=1797065762]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -92,7 +89,7 @@ theme_override_font_sizes/font_size = 30
 text = "settings"
 horizontal_alignment = 1
 
-[node name="Volume" type="VBoxContainer" parent="menu/control/Settings" unique_id=1355475205]
+[node name="Volume" type="VBoxContainer" parent="control/Settings" unique_id=1355475205]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -107,18 +104,18 @@ grow_vertical = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Volume" type="Label" parent="menu/control/Settings/Volume" unique_id=782825761]
+[node name="Volume" type="Label" parent="control/Settings/Volume" unique_id=782825761]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Volume:"
 
-[node name="Master" type="Label" parent="menu/control/Settings/Volume" unique_id=1564610463]
+[node name="Master" type="Label" parent="control/Settings/Volume" unique_id=1564610463]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Master"
 
-[node name="Master" type="HSlider" parent="menu/control/Settings/Volume/Master" unique_id=1562792215]
+[node name="Master" type="HSlider" parent="control/Settings/Volume/Master" unique_id=1562792215]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -138,13 +135,13 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Music" type="Label" parent="menu/control/Settings/Volume" unique_id=799520664]
+[node name="Music" type="Label" parent="control/Settings/Volume" unique_id=799520664]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Music"
 
-[node name="Music" type="HSlider" parent="menu/control/Settings/Volume/Music" unique_id=638834430]
+[node name="Music" type="HSlider" parent="control/Settings/Volume/Music" unique_id=638834430]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -164,13 +161,13 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="SFX" type="Label" parent="menu/control/Settings/Volume" unique_id=1243662372]
+[node name="SFX" type="Label" parent="control/Settings/Volume" unique_id=1243662372]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "SFX"
 
-[node name="SFX" type="HSlider" parent="menu/control/Settings/Volume/SFX" unique_id=2107387455]
+[node name="SFX" type="HSlider" parent="control/Settings/Volume/SFX" unique_id=2107387455]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -190,7 +187,7 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Close" type="Button" parent="menu/control/Settings" unique_id=800473388]
+[node name="Close" type="Button" parent="control/Settings" unique_id=800473388]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -207,7 +204,7 @@ text = "Close
 "
 flat = true
 
-[node name="L1" type="TextureRect" parent="menu/control" unique_id=1745275691]
+[node name="L1" type="TextureRect" parent="control" unique_id=1745275691]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -220,7 +217,7 @@ mouse_filter = 2
 texture = ExtResource("2_oktx4")
 stretch_mode = 2
 
-[node name="L2" type="TextureRect" parent="menu/control/L1" unique_id=1758887102]
+[node name="L2" type="TextureRect" parent="control/L1" unique_id=1758887102]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,7 +229,7 @@ mouse_filter = 2
 texture = ExtResource("3_ckupo")
 stretch_mode = 2
 
-[node name="V1" type="TextureRect" parent="menu/control" unique_id=1347416034]
+[node name="V1" type="TextureRect" parent="control" unique_id=1347416034]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -244,7 +241,7 @@ mouse_filter = 2
 texture = ExtResource("4_2x7eg")
 stretch_mode = 2
 
-[node name="V2" type="TextureRect" parent="menu/control/V1" unique_id=1747016869]
+[node name="V2" type="TextureRect" parent="control/V1" unique_id=1747016869]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -255,7 +252,7 @@ mouse_filter = 2
 texture = ExtResource("5_ugunp")
 stretch_mode = 2
 
-[node name="background" type="Control" parent="menu" unique_id=915260636]
+[node name="background" type="Control" parent="." unique_id=915260636]
 z_index = -1
 layout_mode = 3
 anchors_preset = 0
@@ -266,8 +263,8 @@ offset_bottom = 40.0
 bus = &"Music"
 script = ExtResource("4_fi8nj")
 
-[connection signal="pressed" from="menu/control/VBoxContainer/play" to="menu/control" method="on_play"]
-[connection signal="pressed" from="menu/control/VBoxContainer/credit" to="menu/control" method="_on_credit_pressed"]
-[connection signal="pressed" from="menu/control/VBoxContainer/settings" to="menu/control" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="menu/control/VBoxContainer/exist" to="menu/control" method="on_exist"]
-[connection signal="pressed" from="menu/control/Settings/Close" to="menu/control" method="_on_back_button_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/play" to="control" method="on_play"]
+[connection signal="pressed" from="control/VBoxContainer/credit" to="control" method="_on_credit_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/settings" to="control" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/exist" to="control" method="on_exist"]
+[connection signal="pressed" from="control/Settings/Close" to="control" method="_on_back_button_pressed"]
