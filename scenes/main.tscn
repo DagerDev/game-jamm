@@ -2,7 +2,19 @@
 
 [ext_resource type="Script" uid="uid://px6w0pneo0y0" path="res://scripts/control.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dr8b1m2gxs6p2" path="res://objects/choicebutton.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bb5ynk620ml8a" path="res://objects/shopButton.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://qu6065yox4cv" path="res://scripts/control2.gd" id="5_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="30_fv21b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyhfs"]
+content_margin_left = 23.0
+bg_color = Color(0.15017527, 0.1501753, 0.15017527, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.12089012, 0.12089018, 0.12089013, 1)
+border_blend = true
 
 [node name="canvas" type="CanvasLayer" unique_id=817848931]
 
@@ -23,8 +35,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -284.5
-offset_top = -150.0
+offset_top = -180.0
 offset_right = 284.5
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -114,8 +127,121 @@ grow_horizontal = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ShopMenu" type="Control" parent="Main" unique_id=2068719440]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Main/ShopMenu" unique_id=1944510964]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -282.1875
+offset_top = -277.0
+offset_right = 282.1875
+offset_bottom = 277.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/ShopMenu/Panel" unique_id=1738026216]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.8125
+offset_top = -208.5
+offset_right = 252.8125
+offset_bottom = 278.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jyhfs")
+horizontal_scroll_mode = 0
+tile_scroll_hint = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/ShopMenu/Panel/ScrollContainer" unique_id=1281285167]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Hacking" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=803491341 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Bombing" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=162139792 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Sabotage" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=1587477061 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Clicking" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=519593750 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Shop" type="Label" parent="Main/ShopMenu/Panel" unique_id=1916171419]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.0
+offset_right = 69.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 51
+text = "SHOP"
+
+[node name="Exit" type="Button" parent="Main/ShopMenu/Panel" unique_id=940595446]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -73.1875
+offset_bottom = 76.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 49
+text = "×"
+flat = true
+
+[node name="ShopButton" type="Button" parent="Main" unique_id=240204268]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -42.0
+offset_right = 110.0
+offset_bottom = 42.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 27
+text = "Shop"
+icon = ExtResource("30_fv21b")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Control" type="Control" parent="Main" unique_id=2105670239]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_tbgi4")
+
 [connection signal="pressed" from="Main/CenterContainer/buttons/Hack" to="Main" method="OnHack"]
 [connection signal="pressed" from="Main/CenterContainer/buttons/Bomb" to="Main" method="OnBomb"]
 [connection signal="pressed" from="Main/CenterContainer/buttons/Sabotage" to="Main" method="OnSabotage"]
 [connection signal="pressed" from="Main/CenterContainer/buttons/Loan" to="Main" method="OnLoan"]
 [connection signal="pressed" from="Main/Bank" to="Main" method="OnBank"]
+[connection signal="pressed" from="Main/ShopMenu/Panel/Exit" to="Main/Control" method="_on_exit_pressed"]
+[connection signal="pressed" from="Main/ShopButton" to="Main/Control" method="_on_shop_button_pressed"]

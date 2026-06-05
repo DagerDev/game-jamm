@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bb5ynk620ml8a"]
+
+[ext_resource type="Script" uid="uid://pyhc3l55208g" path="res://scripts/shopbutton.gd" id="1_afabu"]
+[ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="2_mttay"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afabu"]
+bg_color = Color(0.19208485, 0.19208485, 0.19208473, 1)
+
+[node name="ShopButton" type="PanelContainer" unique_id=1587477061]
+offset_right = 465.0
+offset_bottom = 128.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_afabu")
+script = ExtResource("1_afabu")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1050654583]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 10
+
+[node name="Icon" type="TextureRect" parent="MarginContainer" unique_id=1589948512]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_mttay")
+expand_mode = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=1044763451]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Button" type="Button" parent="MarginContainer2" unique_id=29336285]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Buy"
+
+[node name="Text" type="Label" parent="." unique_id=200801193]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Upgrade"
+
+[connection signal="pressed" from="MarginContainer2/Button" to="." method="Pressed"]

@@ -8,10 +8,34 @@ extends Control
 @onready var InfoLabel = %Info
 @onready var HealthBar = %HealthBank
 
+# ==========================
+# SHOP BUTTON
+# ==≠=======================
+@onready var shopbut = [
+	%Hacking,
+	%Bombing,
+	%Sabotage,
+	%Clicking
+]
+
+const shopTitles = [
+	"Upgrade Hacking",
+	"Upgrade Bombing",
+	"Upgrade Sabotage",
+	"Upgrade Clicking"
+]
+
+var shopfunc = [
+	UpgradeHacking,
+	UpgradeBombing,
+	UpgradeSabotage,
+	UpgradeClick
+]
+
 # =========================
 # PLAYER
 # =========================
-var money := 100
+var money := 10000000
 var debt := 0
 
 var hacking := 1
@@ -99,7 +123,17 @@ func update_ui():
 
 	HealthBar.max_value = bank_max_hp
 	HealthBar.value = bank_hp
-
+	
+	var upgradesPrice = [
+	upgrades["Hacking"].price,
+	upgrades["Bombing"].price,
+	upgrades["Sabotage"].price,
+	upgrades["Click"].price
+	]
+	
+	for i in shopbut.size():
+		shopbut[i].getPrice(upgradesPrice[i])
+		
 # =========================
 # HELPERS
 # =========================
@@ -125,7 +159,6 @@ func next_turn():
 func check_win():
 	if bank_hp <= 0:
 		InfoLabel.text = "YOU BROKE THE BANK!"
-		get_tree().paused = true
 
 func process_negative_money():
 	if money < 0:
@@ -337,9 +370,12 @@ func buy_upgrade(id:String):
 
 	InfoLabel.text = \
 	id + " Upgraded!\nNext Price: $" + str(item.price)
-
+	
 	update_ui()
 
 func _ready():
 	randomize()
 	update_ui()
+	for i in shopbut.size():
+		shopbut[i].OnBuy.connect(shopfunc[i])
+		shopbut[i].getTitle(shopTitles[i])

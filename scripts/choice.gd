@@ -1,5 +1,7 @@
 extends TextureButton
 
+class_name choiceButton
+
 @export var button_text: String = "text":
 	set(value):
 		button_text = value
