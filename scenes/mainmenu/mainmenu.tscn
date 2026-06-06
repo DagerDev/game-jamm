@@ -7,6 +7,14 @@
 [ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="4_fi8nj"]
 [ext_resource type="Texture2D" uid="uid://bllvqgsysj2v0" path="res://assets/cutscenes/CS1/3/3 character.png" id="5_ugunp"]
 
+[sub_resource type="Theme" id="Theme_2x7eg"]
+Button/colors/font_color = Color(0.6465947, 0.51352054, 0.30440548, 1)
+Button/colors/font_hover_color = Color(0.7173637, 0.30219886, 0.1891357, 1)
+Button/colors/font_hover_pressed_color = Color(0.8873658, 0.44881988, 0.24431777, 1)
+Button/colors/font_pressed_color = Color(0.38716722, 0.14677879, 0.12403803, 1)
+Button/constants/outline_size = 3
+Button/font_sizes/font_size = 18
+
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_fi8nj"]
 color = Color(0.99883217, 0.97580665, 0.95827323, 1)
 thickness = 4
@@ -38,35 +46,39 @@ offset_right = 218.5
 offset_bottom = 127.0
 grow_vertical = 2
 scale = Vector2(2, 2)
+theme = SubResource("Theme_2x7eg")
 
-[node name="play" type="Button" parent="control/VBoxContainer" unique_id=1905728543]
+[node name="Play" type="Button" parent="control/VBoxContainer" unique_id=1905728543]
+unique_name_in_owner = true
 layout_mode = 2
 text = "play"
 
-[node name="credit" type="Button" parent="control/VBoxContainer" unique_id=1414574137]
+[node name="Credit" type="Button" parent="control/VBoxContainer" unique_id=1414574137]
+unique_name_in_owner = true
 layout_mode = 2
 text = "credit"
 
-[node name="settings" type="Button" parent="control/VBoxContainer" unique_id=1549109836]
+[node name="Settings" type="Button" parent="control/VBoxContainer" unique_id=1549109836]
+unique_name_in_owner = true
 layout_mode = 2
 text = "settings"
 
-[node name="exist" type="Button" parent="control/VBoxContainer" unique_id=2139322330]
+[node name="Exist" type="Button" parent="control/VBoxContainer" unique_id=2139322330]
+unique_name_in_owner = true
 layout_mode = 2
 text = "exit"
 
-[node name="Label" type="Label" parent="control" unique_id=2070156317]
+[node name="Label" type="RichTextLabel" parent="control" unique_id=1479263700]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 23.0
 offset_right = 728.0
 offset_bottom = 133.0
-theme_override_font_sizes/font_size = 72
+theme_override_colors/default_color = Color(0.9339595, 0.5745738, 0.28769618, 1)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/normal_font_size = 60
 text = "Break the Bank!"
 vertical_alignment = 1
-autowrap_mode = 3
-max_lines_visible = 1
-metadata/_edit_lock_ = true
 
 [node name="Settings" type="Panel" parent="control" unique_id=253896915]
 layout_mode = 1
@@ -252,6 +264,37 @@ mouse_filter = 2
 texture = ExtResource("5_ugunp")
 stretch_mode = 2
 
+[node name="Button" type="Button" parent="control/V1" unique_id=1822567927]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -62.0
+offset_bottom = 63.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.25306988, 0.17852724, 4.813075e-08, 1)
+theme_override_font_sizes/font_size = 40
+text = "X"
+flat = true
+
+[node name="Label" type="Label" parent="control/V1" unique_id=371877162]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.5
+offset_top = -41.5
+offset_right = 270.5
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.1455414
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+text = "Credittsss hereeee"
+
 [node name="background" type="Control" parent="." unique_id=915260636]
 z_index = -1
 layout_mode = 3
@@ -263,8 +306,9 @@ offset_bottom = 40.0
 bus = &"Music"
 script = ExtResource("4_fi8nj")
 
-[connection signal="pressed" from="control/VBoxContainer/play" to="control" method="on_play"]
-[connection signal="pressed" from="control/VBoxContainer/credit" to="control" method="_on_credit_pressed"]
-[connection signal="pressed" from="control/VBoxContainer/settings" to="control" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="control/VBoxContainer/exist" to="control" method="on_exist"]
+[connection signal="pressed" from="control/VBoxContainer/Play" to="control" method="on_play"]
+[connection signal="pressed" from="control/VBoxContainer/Credit" to="control" method="_on_credit_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/Settings" to="control" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/Exist" to="control" method="on_exist"]
 [connection signal="pressed" from="control/Settings/Close" to="control" method="_on_back_button_pressed"]
+[connection signal="pressed" from="control/V1/Button" to="control" method="_on_credits_back_pressed"]

@@ -5,14 +5,15 @@ extends Control
 # =========================================================
 @onready var PlayerLabel = %PlayerStats
 @onready var BankLabel = %BankStats
-@onready var InfoLabel = %Info
+#@onready var InfoLabel = %StatusLabel
 @onready var HealthBar = %HealthBank
+@onready var shop_controller = %Tweenss
 
 @onready var shopbut = [
-	%Hacking,
-	%Bombing,
-	%Sabotage,
-	%Clicking
+	%HackingBuy,
+	%BombingBuy,
+	%SabotageBuy,
+	%ClickingBuy
 ]
 
 const shopTitles = [
@@ -32,7 +33,7 @@ var shopfunc = [
 # =========================================================
 # PLAYER
 # =========================================================
-var money := 100
+var money := 67
 var debt := 0
 
 var hacking := 1
@@ -128,10 +129,10 @@ func _process(delta):
 	if action_cd > 0:
 		action_cd -= delta
 
-	if message_timer > 0:
-		message_timer -= delta
-		if message_timer <= 0:
-			InfoLabel.text = ""
+	#if message_timer > 0:
+		#message_timer -= delta
+		#if message_timer <= 0:
+			#InfoLabel.text = ""
 
 	passive_timer += delta
 
@@ -153,9 +154,8 @@ func _process(delta):
 # =========================================================
 var message_timer := 0.0
 
-func push_message(text:String):
-	InfoLabel.text = text
-	message_timer = 2.0
+func push_message(text:String): 
+	shop_controller.push_message(text)
 
 # =========================================================
 # UI
@@ -666,51 +666,6 @@ func OnBank():
 
 	update_ui()
 
-# =========================================================
-# OPTIONAL BONUS ACTION
-# Use later if you add a button
-# =========================================================
-
-func OnInsiderInfo():
-
-	if !can_action():
-		return
-
-	var cost = 100
-
-	if money < cost:
-
-		push_message(
-			"Need $100"
-		)
-
-		return
-
-	money -= cost
-
-	var reveal = randi() % 3
-
-	match reveal:
-
-		0:
-			push_message(
-				"Intel:\nSecurity = %s"
-				% security
-			)
-
-		1:
-			push_message(
-				"Intel:\nCyber = %s"
-				% cybersecurity
-			)
-
-		2:
-			push_message(
-				"Intel:\nStrength = %s"
-				% building_strength
-			)
-
-	next_turn()
 
 # =========================================================
 # SHOP
@@ -818,7 +773,7 @@ func buy_upgrade(id:String):
 
 func reset_game():
 
-	money = 100
+	money = 67
 	debt = 0
 
 	hacking = 1
@@ -1011,32 +966,3 @@ func _ready():
 	push_message(
 		"Loan Can Be Repaid Early"
 	)
-
-# =========================================================
-# DEBUG CHEATS
-# remove later
-# =========================================================
-
-func _input(event):
-
-	if event.is_action_pressed("ui_page_up"):
-
-		money += 1000
-
-		push_message(
-			"DEBUG +$1000"
-		)
-
-		update_ui()
-
-	if event.is_action_pressed("ui_page_down"):
-
-		bank_hp -= 500
-
-		push_message(
-			"DEBUG -500 HP"
-		)
-
-		check_win()
-
-		update_ui()

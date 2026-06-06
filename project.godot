@@ -14,6 +14,9 @@ config/name="Break the Bank!"
 run/main_scene="uid://3wh07r6dgcly"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/icon.svg"
+boot_splash/stretch_mode=4
+boot_splash/use_filter=false
+boot_splash/image="uid://2i3i7q2d7ro0"
 
 [display]
 
@@ -23,10 +26,6 @@ window/size/resizable=false
 window/stretch/mode="viewport"
 mouse_cursor/custom_image="uid://b28p3wew0nd0d"
 window/main_scene="res://main.tscn"
-
-[physics]
-
-3d/physics_engine="Jolt Physics"
 
 [rendering]
 

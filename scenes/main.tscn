@@ -27,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0wfyh")
 
-[node name="CenterContainer" type="CenterContainer" parent="Main" unique_id=1373171639]
+[node name="CenterActions" type="CenterContainer" parent="Main" unique_id=1373171639]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -41,61 +41,31 @@ offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="buttons" type="HBoxContainer" parent="Main/CenterContainer" unique_id=183987280]
+[node name="buttons" type="HBoxContainer" parent="Main/CenterActions" unique_id=183987280]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_constants/separation = 19
 alignment = 1
 
-[node name="Hack" parent="Main/CenterContainer/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
+[node name="Hack" parent="Main/CenterActions/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
-flip_h = true
 button_text = "Hack"
 
-[node name="Bomb" parent="Main/CenterContainer/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
+[node name="Bomb" parent="Main/CenterActions/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 button_text = "Bomb"
 
-[node name="Sabotage" parent="Main/CenterContainer/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
+[node name="Sabotage" parent="Main/CenterActions/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 button_text = "sabotage"
 
-[node name="Loan" parent="Main/CenterContainer/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
+[node name="Loan" parent="Main/CenterActions/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 button_text = "loan"
-
-[node name="Bank" type="Button" parent="Main" unique_id=89918896]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -67.0
-offset_top = -62.0
-offset_right = 64.0
-offset_bottom = 64.5
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-flat = true
-
-[node name="Icon" type="Sprite2D" parent="Main/Bank" unique_id=213165506]
-position = Vector2(65, 64)
-texture = ExtResource("30_fv21b")
-
-[node name="HealthBank" type="ProgressBar" parent="Main/Bank" unique_id=915830081]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -190.5
-offset_top = -28.0
-offset_right = 184.5
-offset_bottom = -3.0
-grow_horizontal = 2
-show_percentage = false
 
 [node name="PlayerStats" type="Label" parent="Main" unique_id=1529168718]
 unique_name_in_owner = true
@@ -127,7 +97,40 @@ grow_horizontal = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="CenterBank" type="CenterContainer" parent="Main" unique_id=800848963]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.0
+offset_top = -175.0
+offset_right = 262.0
+offset_bottom = 173.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/CenterBank" unique_id=1819801733]
+layout_mode = 2
+alignment = 1
+
+[node name="HealthBank" type="ProgressBar" parent="Main/CenterBank/VBoxContainer" unique_id=915830081]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="Bank" type="Button" parent="Main/CenterBank/VBoxContainer" unique_id=89918896]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+icon = ExtResource("30_fv21b")
+flat = true
+
 [node name="ShopMenu" type="Control" parent="Main" unique_id=2068719440]
+unique_name_in_owner = true
 visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -137,61 +140,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="Main/ShopMenu" unique_id=1944510964]
+[node name="ShopPanel" type="Panel" parent="Main/ShopMenu" unique_id=1944510964]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -282.1875
-offset_top = -277.0
-offset_right = 282.1875
-offset_bottom = 277.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 159.0
+offset_top = 46.0
+offset_right = -121.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Main/ShopMenu/Panel" unique_id=1738026216]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -252.8125
-offset_top = -208.5
-offset_right = 252.8125
-offset_bottom = 278.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jyhfs")
-horizontal_scroll_mode = 0
-tile_scroll_hint = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Main/ShopMenu/Panel/ScrollContainer" unique_id=1281285167]
-custom_minimum_size = Vector2(450, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="Hacking" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=803491341 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Bombing" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=162139792 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Sabotage" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=1587477061 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Clicking" parent="Main/ShopMenu/Panel/ScrollContainer/VBoxContainer" unique_id=519593750 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Shop" type="Label" parent="Main/ShopMenu/Panel" unique_id=1916171419]
+[node name="Shop" type="Label" parent="Main/ShopMenu/ShopPanel" unique_id=1916171419]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -203,7 +165,8 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 51
 text = "SHOP"
 
-[node name="Exit" type="Button" parent="Main/ShopMenu/Panel" unique_id=940595446]
+[node name="Exit" type="Button" parent="Main/ShopMenu/ShopPanel" unique_id=940595446]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -215,7 +178,48 @@ theme_override_font_sizes/font_size = 49
 text = "×"
 flat = true
 
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/ShopMenu/ShopPanel" unique_id=1738026216]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -200.5
+offset_right = 252.0
+offset_bottom = 200.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jyhfs")
+horizontal_scroll_mode = 0
+tile_scroll_hint = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/ShopMenu/ShopPanel/ScrollContainer" unique_id=1281285167]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HackingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=803491341 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BombingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=162139792 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SabotageBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=1587477061 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ClickingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=519593750 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="ShopButton" type="Button" parent="Main" unique_id=240204268]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -232,16 +236,23 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="Control" type="Control" parent="Main" unique_id=2105670239]
+[node name="Tweenss" type="Control" parent="Main" unique_id=2105670239]
+unique_name_in_owner = true
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("5_tbgi4")
 
-[connection signal="pressed" from="Main/CenterContainer/buttons/Hack" to="Main" method="OnHack"]
-[connection signal="pressed" from="Main/CenterContainer/buttons/Bomb" to="Main" method="OnBomb"]
-[connection signal="pressed" from="Main/CenterContainer/buttons/Sabotage" to="Main" method="OnSabotage"]
-[connection signal="pressed" from="Main/CenterContainer/buttons/Loan" to="Main" method="OnLoan"]
-[connection signal="pressed" from="Main/Bank" to="Main" method="OnBank"]
-[connection signal="pressed" from="Main/ShopMenu/Panel/Exit" to="Main/Control" method="_on_exit_pressed"]
-[connection signal="pressed" from="Main/ShopButton" to="Main/Control" method="_on_shop_button_pressed"]
+[connection signal="gui_input" from="Main/CenterActions/buttons/Hack" to="Main/Tweenss" method="_on_hack_gui_input"]
+[connection signal="pressed" from="Main/CenterActions/buttons/Hack" to="Main" method="OnHack"]
+[connection signal="gui_input" from="Main/CenterActions/buttons/Bomb" to="Main/Tweenss" method="_on_bomb_gui_input"]
+[connection signal="pressed" from="Main/CenterActions/buttons/Bomb" to="Main" method="OnBomb"]
+[connection signal="gui_input" from="Main/CenterActions/buttons/Sabotage" to="Main/Tweenss" method="_on_sabotage_gui_input"]
+[connection signal="pressed" from="Main/CenterActions/buttons/Sabotage" to="Main" method="OnSabotage"]
+[connection signal="gui_input" from="Main/CenterActions/buttons/Loan" to="Main/Tweenss" method="_on_loan_gui_input"]
+[connection signal="pressed" from="Main/CenterActions/buttons/Loan" to="Main" method="OnLoan"]
+[connection signal="value_changed" from="Main/CenterBank/VBoxContainer/HealthBank" to="Main/Tweenss" method="_on_health_bank_value_changed"]
+[connection signal="gui_input" from="Main/CenterBank/VBoxContainer/Bank" to="Main/Tweenss" method="_on_bank_gui_input"]
+[connection signal="pressed" from="Main/CenterBank/VBoxContainer/Bank" to="Main" method="OnBank"]
+[connection signal="pressed" from="Main/ShopMenu/ShopPanel/Exit" to="Main/Tweenss" method="_on_exit_pressed"]
+[connection signal="pressed" from="Main/ShopButton" to="Main/Tweenss" method="_on_shop_button_pressed"]

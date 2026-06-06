@@ -3,10 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="1_al1dj"]
 [ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://scripts/choice.gd" id="2_6d6hr"]
 
-[node name="Choice" type="TextureButton" unique_id=1665484643]
-offset_right = 128.0
-offset_bottom = 157.0
-texture_normal = ExtResource("1_al1dj")
+[node name="Choice" type="Button" unique_id=780817041]
+offset_top = -2.0
+offset_right = 154.0
+offset_bottom = 185.0
+icon = ExtResource("1_al1dj")
+flat = true
+icon_alignment = 1
 script = ExtResource("2_6d6hr")
 
 [node name="Label" type="Label" parent="." unique_id=1487920070]
