@@ -1,5 +1,7 @@
 extends Control
 
+@onready var shopkeeper =$"../ShopMenu/ShopPanel/ShopOwner"
+
 @onready var shopMenu = %ShopMenu
 @onready var shopPanel = %ShopPanel
 @onready var bank = %Bank
@@ -25,7 +27,12 @@ var panel_start_pos: Vector2
 var panel_hidden_y: float
 var shop_open := false
 
+var tween_keeper : Tween
+var keeper_start_pos : Vector2
+
 func _ready():
+	keeper_start_pos = shopkeeper.position
+	
 	shopMenu.visible = false
 	shopMenu.modulate.a = 0.0
 	statusLabel.modulate.a = 0.0
@@ -117,6 +124,7 @@ func _on_health_bank_value_changed(_value: float) -> void:
 	tween_health.tween_property(health, "scale", Vector2.ONE, 0.06)
 
 func _on_shop_button_pressed() -> void:
+	start_shopkeeper_idle()
 	if tween_shop: tween_shop.kill()
 	shop_open = true
 	shopBtn.visible = false # hide shop button when open
@@ -136,4 +144,40 @@ func _on_exit_pressed() -> void:
 	tween_shop.chain().tween_callback(func(): 
 		shopMenu.visible = false
 		shopBtn.visible = true # show shop button again
+	)
+	stop_shopkeeper_idle()
+	
+func start_shopkeeper_idle():
+	if tween_keeper:
+		tween_keeper.kill()
+
+	shopkeeper.position = keeper_start_pos
+
+	tween_keeper = create_tween()
+	tween_keeper.set_loops()
+
+	tween_keeper.tween_property(
+		shopkeeper,
+		"position:y",
+		keeper_start_pos.y - 8,
+		1.0
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	tween_keeper.tween_property(
+		shopkeeper,
+		"position:y",
+		keeper_start_pos.y,
+		1.0
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+func stop_shopkeeper_idle():
+	if tween_keeper:
+		tween_keeper.kill()
+
+	var t = create_tween()
+	t.tween_property(
+		shopkeeper,
+		"position",
+		keeper_start_pos,
+		0.2
 	)

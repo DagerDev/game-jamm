@@ -1,48 +1,60 @@
 [gd_scene format=3 uid="uid://bb5ynk620ml8a"]
 
 [ext_resource type="Script" uid="uid://pyhc3l55208g" path="res://scripts/shopbutton.gd" id="1_afabu"]
-[ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="2_mttay"]
+[ext_resource type="Texture2D" uid="uid://ptdl6htexyd7" path="res://assets/Shop/IMG_20260607_122753.png" id="1_mttay"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afabu"]
-bg_color = Color(0.19208485, 0.19208485, 0.19208473, 1)
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="ShopButton" type="PanelContainer" unique_id=1587477061]
-offset_right = 465.0
-offset_bottom = 128.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mttay"]
+bg_color = Color(0.53333336, 0.58431375, 0.5254902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8088759, 0.8088764, 0.808876, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lmnxs"]
+bg_color = Color(0.42070922, 0.4678263, 0.413493, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2509246, 0.2509255, 0.2509249, 1)
+
+[node name="ShopButton" type="PanelContainer" unique_id=1397489780]
+offset_right = 340.0
+offset_bottom = 108.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_afabu")
 script = ExtResource("1_afabu")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1050654583]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=545526412]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_constants/margin_left = 10
+texture = ExtResource("1_mttay")
 
-[node name="Icon" type="TextureRect" parent="MarginContainer" unique_id=1589948512]
-custom_minimum_size = Vector2(100, 100)
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=466301698]
 layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_mttay")
-expand_mode = 1
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 19
 
-[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=1044763451]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="Button" type="Button" parent="MarginContainer2" unique_id=29336285]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "Buy"
-
-[node name="Text" type="Label" parent="." unique_id=200801193]
+[node name="Text" type="Label" parent="MarginContainer2" unique_id=200801193]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 14
 text = "Upgrade"
 
-[connection signal="pressed" from="MarginContainer2/Button" to="." method="Pressed"]
+[node name="Buy" type="Button" parent="." unique_id=620609270]
+clip_contents = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_mttay")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lmnxs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lmnxs")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_lmnxs")
+text = "Buy"
+
+[connection signal="pressed" from="Buy" to="." method="Pressed"]

@@ -6,9 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://lj3i7hcs8kp8" path="res://assets/cutscenes/CS1/3/3 bg.png" id="4_2x7eg"]
 [ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="4_fi8nj"]
 [ext_resource type="Texture2D" uid="uid://bllvqgsysj2v0" path="res://assets/cutscenes/CS1/3/3 character.png" id="5_ugunp"]
+[ext_resource type="AudioStream" uid="uid://cj51vavv0h7jp" path="res://assets/Audio/sfx/button_fx_verse_009_cc0_avr.wav" id="6_vvrmg"]
+[ext_resource type="AudioStream" uid="uid://dnyo12r63u4yf" path="res://assets/Audio/sfx/button_fx_verse_008_cc0_avr.wav" id="7_542r0"]
+[ext_resource type="Script" uid="uid://drhrjxpya5k4x" path="res://scenes/mainmenu/sfx.gd" id="9_aqxfm"]
 
 [sub_resource type="Theme" id="Theme_2x7eg"]
-Button/colors/font_color = Color(0.6465947, 0.51352054, 0.30440548, 1)
+Button/colors/font_color = Color(0.90890294, 0.79796034, 0.63194895, 1)
 Button/colors/font_hover_color = Color(0.7173637, 0.30219886, 0.1891357, 1)
 Button/colors/font_hover_pressed_color = Color(0.8873658, 0.44881988, 0.24431777, 1)
 Button/colors/font_pressed_color = Color(0.38716722, 0.14677879, 0.12403803, 1)
@@ -295,6 +298,14 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
 text = "Credittsss hereeee"
 
+[node name="Hover" type="AudioStreamPlayer" parent="control" unique_id=213961083]
+stream = ExtResource("6_vvrmg")
+bus = &"SFX"
+
+[node name="Click" type="AudioStreamPlayer" parent="control" unique_id=1203408321]
+stream = ExtResource("7_542r0")
+bus = &"SFX"
+
 [node name="background" type="Control" parent="." unique_id=915260636]
 z_index = -1
 layout_mode = 3
@@ -306,9 +317,24 @@ offset_bottom = 40.0
 bus = &"Music"
 script = ExtResource("4_fi8nj")
 
+[node name="sfx" type="Control" parent="." unique_id=1590357600]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_aqxfm")
+
+[connection signal="mouse_entered" from="control/VBoxContainer/Play" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Play" to="control" method="on_play"]
+[connection signal="pressed" from="control/VBoxContainer/Play" to="sfx" method="Click"]
+[connection signal="mouse_entered" from="control/VBoxContainer/Credit" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Credit" to="control" method="_on_credit_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/Credit" to="sfx" method="Click"]
+[connection signal="mouse_entered" from="control/VBoxContainer/Settings" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Settings" to="control" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/Settings" to="sfx" method="Click"]
+[connection signal="mouse_entered" from="control/VBoxContainer/Exist" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Exist" to="control" method="on_exist"]
+[connection signal="pressed" from="control/VBoxContainer/Exist" to="sfx" method="Click"]
 [connection signal="pressed" from="control/Settings/Close" to="control" method="_on_back_button_pressed"]
 [connection signal="pressed" from="control/V1/Button" to="control" method="_on_credits_back_pressed"]

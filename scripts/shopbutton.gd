@@ -1,7 +1,7 @@
 extends PanelContainer
 class_name shopButton
 
-@onready var label  = $Text
+@onready var label  = $MarginContainer2/Text
 
 var title := "bamwe"
 var price : int

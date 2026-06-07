@@ -3,18 +3,18 @@
 [ext_resource type="Script" uid="uid://px6w0pneo0y0" path="res://scripts/control.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dr8b1m2gxs6p2" path="res://objects/choicebutton.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bb5ynk620ml8a" path="res://objects/shopButton.tscn" id="4_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://lssqoxr1myan" path="res://assets/Shop/shop bg.png" id="4_tipki"]
 [ext_resource type="Script" uid="uid://qu6065yox4cv" path="res://scripts/control2.gd" id="5_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://dir1fsc0e1igb" path="res://assets/Shop/shop icon.png" id="5_tefeu"]
+[ext_resource type="Texture2D" uid="uid://ct4yp06pfi0p0" path="res://assets/Shop/shop owner.png" id="6_85g3d"]
+[ext_resource type="Texture2D" uid="uid://c4h4lvevntsy2" path="res://assets/Shop/shops ugrades bg.png" id="6_choun"]
+[ext_resource type="Texture2D" uid="uid://db2lx6bsfmc6t" path="res://assets/Shop/shop table over upgrades bg.png" id="7_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="30_fv21b"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyhfs"]
-content_margin_left = 23.0
-bg_color = Color(0.15017527, 0.1501753, 0.15017527, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.12089012, 0.12089018, 0.12089013, 1)
-border_blend = true
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_choun"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+corner_detail = 7
+expand_margin_right = 70.0
 
 [node name="canvas" type="CanvasLayer" unique_id=817848931]
 
@@ -104,10 +104,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -224.0
-offset_top = -175.0
-offset_right = 262.0
-offset_bottom = 173.0
+offset_left = -243.0
+offset_top = -174.0
+offset_right = 243.0
+offset_bottom = 174.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -131,7 +131,6 @@ flat = true
 
 [node name="ShopMenu" type="Control" parent="Main" unique_id=2068719440]
 unique_name_in_owner = true
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -140,33 +139,91 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ShopPanel" type="Panel" parent="Main/ShopMenu" unique_id=1944510964]
+[node name="ShopPanel" type="TextureRect" parent="Main/ShopMenu" unique_id=53839119]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 159.0
-offset_top = 46.0
-offset_right = -121.0
-offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_tipki")
 
 [node name="Shop" type="Label" parent="Main/ShopMenu/ShopPanel" unique_id=1916171419]
+z_index = 1
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -69.0
-offset_right = 69.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -326.0
 offset_bottom = 70.0
-grow_horizontal = 2
+grow_horizontal = 0
 theme_override_font_sizes/font_size = 51
 text = "SHOP"
+horizontal_alignment = 1
+
+[node name="ShopOwner" type="TextureRect" parent="Main/ShopMenu/ShopPanel" unique_id=561043821]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_85g3d")
+metadata/_edit_lock_ = true
+
+[node name="Ui" type="TextureRect" parent="Main/ShopMenu/ShopPanel" unique_id=47499684]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("6_choun")
+
+[node name="Table" type="TextureRect" parent="Main/ShopMenu/ShopPanel" unique_id=447602706]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_ya4ey")
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="Main/ShopMenu/ShopPanel" unique_id=1615140635]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 70.0
+offset_right = 811.0
+offset_bottom = 520.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_choun")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/ShopMenu/ShopPanel/ScrollContainer2" unique_id=1281285167]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="HackingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=803491341 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BombingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=162139792 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SabotageBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=1587477061 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ClickingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=519593750 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="Exit" type="Button" parent="Main/ShopMenu/ShopPanel" unique_id=940595446]
 unique_name_in_owner = true
+z_index = 5
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -178,46 +235,6 @@ theme_override_font_sizes/font_size = 49
 text = "×"
 flat = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Main/ShopMenu/ShopPanel" unique_id=1738026216]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -252.0
-offset_top = -200.5
-offset_right = 252.0
-offset_bottom = 200.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jyhfs")
-horizontal_scroll_mode = 0
-tile_scroll_hint = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Main/ShopMenu/ShopPanel/ScrollContainer" unique_id=1281285167]
-custom_minimum_size = Vector2(450, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="HackingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=803491341 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="BombingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=162139792 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="SabotageBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=1587477061 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="ClickingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer/VBoxContainer" unique_id=519593750 instance=ExtResource("4_jyhfs")]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="ShopButton" type="Button" parent="Main" unique_id=240204268]
 unique_name_in_owner = true
 layout_mode = 1
@@ -226,12 +243,12 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -42.0
 offset_right = 110.0
-offset_bottom = 42.0
+offset_bottom = 58.0
 grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 0.63529414)
 theme_override_font_sizes/font_size = 27
 text = "Shop"
-icon = ExtResource("30_fv21b")
+icon = ExtResource("5_tefeu")
 flat = true
 icon_alignment = 1
 expand_icon = true
