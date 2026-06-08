@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://ct4yp06pfi0p0" path="res://assets/Shop/shop owner.png" id="6_85g3d"]
 [ext_resource type="Texture2D" uid="uid://c4h4lvevntsy2" path="res://assets/Shop/shops ugrades bg.png" id="6_choun"]
 [ext_resource type="Texture2D" uid="uid://db2lx6bsfmc6t" path="res://assets/Shop/shop table over upgrades bg.png" id="7_ya4ey"]
+[ext_resource type="Script" uid="uid://bj6od6u72b8xq" path="res://scripts/sfx2.gd" id="11_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://cj51vavv0h7jp" path="res://assets/Audio/sfx/button_fx_verse_009_cc0_avr.wav" id="12_trceg"]
+[ext_resource type="AudioStream" uid="uid://dnyo12r63u4yf" path="res://assets/Audio/sfx/button_fx_verse_008_cc0_avr.wav" id="13_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="30_fv21b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_choun"]
@@ -34,44 +37,19 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -284.5
-offset_top = -180.0
-offset_right = 284.5
-offset_bottom = -30.0
+offset_left = -22.0
+offset_top = -8.0
+offset_right = 22.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="buttons" type="HBoxContainer" parent="Main/CenterActions" unique_id=183987280]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-theme_override_constants/separation = 19
-alignment = 1
-
-[node name="Hack" parent="Main/CenterActions/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
-unique_name_in_owner = true
-layout_mode = 2
-button_text = "Hack"
-
-[node name="Bomb" parent="Main/CenterActions/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
-unique_name_in_owner = true
-layout_mode = 2
-button_text = "Bomb"
-
-[node name="Sabotage" parent="Main/CenterActions/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
-unique_name_in_owner = true
-layout_mode = 2
-button_text = "sabotage"
-
-[node name="Loan" parent="Main/CenterActions/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
-unique_name_in_owner = true
-layout_mode = 2
-button_text = "loan"
 
 [node name="PlayerStats" type="Label" parent="Main" unique_id=1529168718]
 unique_name_in_owner = true
 layout_mode = 1
+offset_left = 14.0
+offset_top = 14.0
 offset_right = 178.0
-offset_bottom = 23.0
+offset_bottom = 158.0
 
 [node name="BankStats" type="Label" parent="Main" unique_id=1944533365]
 unique_name_in_owner = true
@@ -80,7 +58,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -195.0
-offset_bottom = 23.0
+offset_top = 21.0
+offset_right = -13.0
+offset_bottom = 199.0
 grow_horizontal = 0
 horizontal_alignment = 2
 
@@ -131,6 +111,7 @@ flat = true
 
 [node name="ShopMenu" type="Control" parent="Main" unique_id=2068719440]
 unique_name_in_owner = true
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -260,16 +241,66 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("5_tbgi4")
 
-[connection signal="gui_input" from="Main/CenterActions/buttons/Hack" to="Main/Tweenss" method="_on_hack_gui_input"]
-[connection signal="pressed" from="Main/CenterActions/buttons/Hack" to="Main" method="OnHack"]
-[connection signal="gui_input" from="Main/CenterActions/buttons/Bomb" to="Main/Tweenss" method="_on_bomb_gui_input"]
-[connection signal="pressed" from="Main/CenterActions/buttons/Bomb" to="Main" method="OnBomb"]
-[connection signal="gui_input" from="Main/CenterActions/buttons/Sabotage" to="Main/Tweenss" method="_on_sabotage_gui_input"]
-[connection signal="pressed" from="Main/CenterActions/buttons/Sabotage" to="Main" method="OnSabotage"]
-[connection signal="gui_input" from="Main/CenterActions/buttons/Loan" to="Main/Tweenss" method="_on_loan_gui_input"]
-[connection signal="pressed" from="Main/CenterActions/buttons/Loan" to="Main" method="OnLoan"]
+[node name="sfx" type="Control" parent="Main" unique_id=1059925578]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("11_ya4ey")
+
+[node name="Hover" type="AudioStreamPlayer" parent="Main/sfx" unique_id=1496579865]
+stream = ExtResource("12_trceg")
+bus = &"SFX"
+
+[node name="Click" type="AudioStreamPlayer" parent="Main/sfx" unique_id=1523709191]
+stream = ExtResource("13_a8y0u")
+bus = &"SFX"
+
+[node name="buttons" type="HBoxContainer" parent="Main" unique_id=183987280]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -314.0
+offset_top = -122.0
+offset_right = 314.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="Hack" parent="Main/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
+layout_mode = 2
+button_text = "Hack"
+
+[node name="Bomb" parent="Main/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
+layout_mode = 2
+button_text = "Bomb"
+
+[node name="Sabotage" parent="Main/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
+layout_mode = 2
+button_text = "sabotage"
+
+[node name="Loan" parent="Main/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
+layout_mode = 2
+button_text = "loan"
+
 [connection signal="value_changed" from="Main/CenterBank/VBoxContainer/HealthBank" to="Main/Tweenss" method="_on_health_bank_value_changed"]
 [connection signal="gui_input" from="Main/CenterBank/VBoxContainer/Bank" to="Main/Tweenss" method="_on_bank_gui_input"]
 [connection signal="pressed" from="Main/CenterBank/VBoxContainer/Bank" to="Main" method="OnBank"]
 [connection signal="pressed" from="Main/ShopMenu/ShopPanel/Exit" to="Main/Tweenss" method="_on_exit_pressed"]
 [connection signal="pressed" from="Main/ShopButton" to="Main/Tweenss" method="_on_shop_button_pressed"]
+[connection signal="gui_input" from="Main/buttons/Hack" to="Main/Tweenss" method="_on_hack_gui_input"]
+[connection signal="pressed" from="Main/buttons/Hack" to="Main" method="OnHack"]
+[connection signal="pressed" from="Main/buttons/Hack" to="Main/sfx" method="Click"]
+[connection signal="gui_input" from="Main/buttons/Bomb" to="Main/Tweenss" method="_on_bomb_gui_input"]
+[connection signal="pressed" from="Main/buttons/Bomb" to="Main" method="OnBomb"]
+[connection signal="gui_input" from="Main/buttons/Sabotage" to="Main/Tweenss" method="_on_sabotage_gui_input"]
+[connection signal="pressed" from="Main/buttons/Sabotage" to="Main" method="OnSabotage"]
+[connection signal="gui_input" from="Main/buttons/Loan" to="Main/Tweenss" method="_on_loan_gui_input"]
+[connection signal="pressed" from="Main/buttons/Loan" to="Main" method="OnLoan"]

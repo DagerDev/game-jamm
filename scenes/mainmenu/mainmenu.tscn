@@ -39,6 +39,7 @@ script = ExtResource("1_1css7")
 metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="control" unique_id=474045177]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -72,6 +73,8 @@ layout_mode = 2
 text = "exit"
 
 [node name="Label" type="RichTextLabel" parent="control" unique_id=1479263700]
+texture_filter = 1
+texture_repeat = 1
 layout_mode = 0
 offset_left = 60.0
 offset_top = 23.0
@@ -80,10 +83,13 @@ offset_bottom = 133.0
 theme_override_colors/default_color = Color(0.9339595, 0.5745738, 0.28769618, 1)
 theme_override_constants/outline_size = 9
 theme_override_font_sizes/normal_font_size = 60
+bbcode_enabled = true
 text = "Break the Bank!"
 vertical_alignment = 1
 
 [node name="Settings" type="Panel" parent="control" unique_id=253896915]
+texture_filter = 1
+texture_repeat = 2
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -298,14 +304,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
 text = "Credittsss hereeee"
 
-[node name="Hover" type="AudioStreamPlayer" parent="control" unique_id=213961083]
-stream = ExtResource("6_vvrmg")
-bus = &"SFX"
-
-[node name="Click" type="AudioStreamPlayer" parent="control" unique_id=1203408321]
-stream = ExtResource("7_542r0")
-bus = &"SFX"
-
 [node name="background" type="Control" parent="." unique_id=915260636]
 z_index = -1
 layout_mode = 3
@@ -323,6 +321,14 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("9_aqxfm")
+
+[node name="Hover" type="AudioStreamPlayer" parent="sfx" unique_id=1887915820]
+stream = ExtResource("6_vvrmg")
+bus = &"SFX"
+
+[node name="Click" type="AudioStreamPlayer" parent="sfx" unique_id=393536329]
+stream = ExtResource("7_542r0")
+bus = &"SFX"
 
 [connection signal="mouse_entered" from="control/VBoxContainer/Play" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Play" to="control" method="on_play"]

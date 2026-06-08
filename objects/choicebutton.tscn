@@ -1,13 +1,12 @@
 [gd_scene format=3 uid="uid://dr8b1m2gxs6p2"]
 
-[ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="1_al1dj"]
 [ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://scripts/choice.gd" id="2_6d6hr"]
+[ext_resource type="Texture2D" uid="uid://c1aum2g8qd5gv" path="res://assets/icons/loan.png" id="2_ep2lt"]
 
 [node name="Choice" type="Button" unique_id=780817041]
 offset_top = -2.0
-offset_right = 154.0
-offset_bottom = 185.0
-icon = ExtResource("1_al1dj")
+offset_right = 90.0
+offset_bottom = 121.0
 flat = true
 icon_alignment = 1
 script = ExtResource("2_6d6hr")
@@ -19,12 +18,24 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -22.0
+offset_left = -22.5
 offset_top = -32.0
-offset_right = 22.0
+offset_right = 22.5
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 23
 text = "text"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=177430853]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.5
+offset_right = 47.5
+offset_bottom = 95.0
+grow_horizontal = 2
+texture = ExtResource("2_ep2lt")
+expand_mode = 1

@@ -166,11 +166,11 @@ func update_ui():
 	"PLAYER\n" + \
 	"Money: $" + str(money) + "\n" + \
 	"Debt: $" + str(debt) + "\n" + \
-	"Hacking: " + str(hacking) + "\n" + \
+	"\nHacking: " + str(hacking) + "\n" + \
 	"Bombing: " + str(bombing) + "\n" + \
 	"Sabotage: " + str(sabotage_power) + "\n" + \
 	"Click: " + str(click_power) + "\n" + \
-	"Turn: " + str(turn)
+	"\nTurn: " + str(turn)
 
 	BankLabel.text = \
 	"BANK Lv." + str(bank_level) + "\n" + \
