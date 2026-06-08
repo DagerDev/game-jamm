@@ -1,5 +1,8 @@
 extends Control
 
+@onready var story = $"../ScrollContainer"
+@onready var storyBtn = $"VBoxContainer/Story"
+
 @onready var master_slider = %Master
 @onready var music_slider = %Music
 @onready var sfx_slider = %SFX
@@ -9,10 +12,17 @@ extends Control
 @onready var credits = $V1
 @onready var title = $Label
 
+var story_start_pos: Vector2
+var tween_story: Tween
 @onready var playBtn = %Play
 @onready var creditBtn = %Credit
 @onready var existBtn = %Exist
 @onready var settingsBtn = %Settings
+
+@onready var rect = $"V1/V2"
+
+var base_pos: Vector2
+var bob_tween: Tween
 
 var menu_start_pos: Vector2
 var background_start_pos: Vector2
@@ -33,10 +43,14 @@ var transitioning := false
 var hovered_button: Control = null
 
 func _ready():
+	base_pos = rect.position
 	menu_start_pos = menu.position
 	background_start_pos = background.position
 	background_start_scale = background.scale
 	title_start_pos = title.position
+	story_start_pos = story.position
+	story.visible = false
+	story.modulate.a = 0.0
 	
 	settings.position = menu_start_pos
 	settings.visible = false
@@ -47,7 +61,7 @@ func _ready():
 	title.pivot_offset = title.size / 2
 	
 	# Init buttons - set margin_left to 0 first to avoid Nil error
-	for btn in [playBtn, creditBtn, existBtn, settingsBtn]:
+	for btn in [playBtn, creditBtn, existBtn, settingsBtn, storyBtn]:
 		btn.pivot_offset = btn.size / 2
 		btn.mouse_filter = Control.MOUSE_FILTER_STOP
 		btn.add_theme_constant_override("margin_left", 0) # Fix: set initial value
@@ -70,6 +84,8 @@ func _input(event: InputEvent):
 			_on_back_button_pressed()
 		elif current_screen == "credits":
 			_on_credits_back_pressed()
+		elif current_screen == "story":
+			story_exit()
 		get_viewport().set_input_as_handled()
 	
 	if event is InputEventMouseButton and not event.pressed:
@@ -190,6 +206,7 @@ func _on_back_button_pressed():
 	tween_menu.chain().tween_callback(func(): settings.visible = false)
 
 func _on_credit_pressed() -> void:
+	start_bob()
 	_button_click_fx(creditBtn)
 	if current_screen!= "menu" or transitioning: return
 	current_screen = "credits"
@@ -217,6 +234,7 @@ func _on_credit_pressed() -> void:
 	tween_credits.tween_property(credits, "modulate:a", 1.0, 0.6)
 
 func _on_credits_back_pressed():
+	stop_bob()
 	if current_screen!= "credits" or transitioning: return
 	current_screen = "menu"
 	
@@ -258,6 +276,32 @@ func on_play() -> void:
 	exit_tween.chain().tween_callback(func():
 		get_tree().change_scene_to_file.call_deferred("res://scenes/main.tscn")
 	)
+	
+func start_bob():
+	# prevent stacking tweens
+	stop_bob()
+
+	rect.position = base_pos
+
+	bob_tween = create_tween()
+	bob_tween.set_loops()
+
+	# up
+	bob_tween.tween_property(rect, "position:y", base_pos.y - 10, 0.6)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)
+
+	# down
+	bob_tween.tween_property(rect, "position:y", base_pos.y + 10, 0.6)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)
+
+func stop_bob():
+	if bob_tween:
+		bob_tween.kill()
+		bob_tween = null
+
+	rect.position = base_pos
 
 func on_exist() -> void:
 	if transitioning: return
@@ -280,3 +324,64 @@ func set_bus_volume(bus_name, value):
 		AudioServer.set_bus_volume_db(bus_index, -80)
 	else:
 		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+
+
+func _on_story_pressed() -> void:
+	if transitioning or current_screen != "menu":
+		return
+
+	current_screen = "story"
+	_button_click_fx(storyBtn)
+
+	if tween_menu:
+		tween_menu.kill()
+
+	story.visible = true
+	story.modulate.a = 0.0
+	story.position = story_start_pos + Vector2(600, 0)
+
+	tween_menu = create_tween().set_parallel(true)
+	tween_menu.set_trans(Tween.TRANS_CUBIC)
+	tween_menu.set_ease(Tween.EASE_OUT)
+
+	tween_menu.tween_property(menu, "position:x", menu_start_pos.x - 600, 0.4)
+	tween_menu.tween_property(menu, "modulate:a", 0.0, 0.4)
+
+	tween_story = create_tween().set_parallel(true)
+	tween_story.set_trans(Tween.TRANS_CUBIC)
+	tween_story.set_ease(Tween.EASE_OUT)
+
+	tween_story.tween_property(story, "position", story_start_pos, 0.4)
+	tween_story.tween_property(story, "modulate:a", 1.0, 0.4)
+
+
+func story_exit() -> void:
+	if current_screen != "story":
+		return
+
+	current_screen = "menu"
+
+	if tween_story:
+		tween_story.kill()
+
+	tween_story = create_tween().set_parallel(true)
+	tween_story.set_trans(Tween.TRANS_CUBIC)
+	tween_story.set_ease(Tween.EASE_IN)
+
+	tween_story.tween_property(story, "position:x", story_start_pos.x + 600, 0.35)
+	tween_story.tween_property(story, "modulate:a", 0.0, 0.35)
+
+	tween_story.chain().tween_callback(func():
+		story.visible = false
+		story.position = story_start_pos
+	)
+
+	if tween_menu:
+		tween_menu.kill()
+
+	tween_menu = create_tween().set_parallel(true)
+	tween_menu.set_trans(Tween.TRANS_CUBIC)
+	tween_menu.set_ease(Tween.EASE_OUT)
+
+	tween_menu.tween_property(menu, "position", menu_start_pos, 0.4)
+	tween_menu.tween_property(menu, "modulate:a", 1.0, 0.4)

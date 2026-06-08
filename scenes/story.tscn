@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bmgo8b38w63uf"]
+
+[ext_resource type="Texture2D" uid="uid://dograump3kury" path="res://assets/20260608_134855.png" id="1_lcs0l"]
+[ext_resource type="Script" uid="uid://l1r4c444sc51" path="res://scenes/st.gd" id="1_md1pp"]
+[ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="2_1octt"]
+
+[node name="Story" type="CanvasLayer" unique_id=1184236258]
+script = ExtResource("1_md1pp")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=759767869]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer" unique_id=569960783]
+custom_minimum_size = Vector2(800, 2000)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_lcs0l")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="ScrollContainer/TextureRect" unique_id=1175604928]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = -111.0
+offset_right = 91.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "Main menu"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=577112771]
+script = ExtResource("2_1octt")
+
+[connection signal="pressed" from="ScrollContainer/TextureRect/Button" to="." method="_on_button_pressed"]

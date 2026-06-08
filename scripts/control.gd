@@ -224,7 +224,7 @@ func check_win():
 		return
 
 	game_over = true
-
+	get_tree().change_scene_to_file.call_deferred("res://scenes/story.tscn")
 	push_message(
 		"VICTORY\n\nYou Destroyed The Bank!\n\nCreated By King"
 	)

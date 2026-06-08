@@ -13,11 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://ct4yp06pfi0p0" path="res://assets/Shop/shop owner.png" id="6_85g3d"]
 [ext_resource type="Texture2D" uid="uid://c4h4lvevntsy2" path="res://assets/Shop/shops ugrades bg.png" id="6_choun"]
 [ext_resource type="Texture2D" uid="uid://c4noqo5id4f5s" path="res://assets/icons/pay.png" id="6_jscy8"]
+[ext_resource type="Texture2D" uid="uid://da5i1dblnni6e" path="res://assets/bank.png" id="7_gqmmt"]
 [ext_resource type="Texture2D" uid="uid://db2lx6bsfmc6t" path="res://assets/Shop/shop table over upgrades bg.png" id="7_ya4ey"]
 [ext_resource type="Script" uid="uid://bj6od6u72b8xq" path="res://scripts/sfx2.gd" id="11_ya4ey"]
 [ext_resource type="AudioStream" uid="uid://cj51vavv0h7jp" path="res://assets/Audio/sfx/button_fx_verse_009_cc0_avr.wav" id="12_trceg"]
 [ext_resource type="AudioStream" uid="uid://dnyo12r63u4yf" path="res://assets/Audio/sfx/button_fx_verse_008_cc0_avr.wav" id="13_a8y0u"]
-[ext_resource type="Texture2D" uid="uid://dyudic25gjio8" path="res://assets/icon.svg" id="30_fv21b"]
+[ext_resource type="Texture2D" uid="uid://b7d01n11xtuth" path="res://assets/game bg.png" id="19_0ld40"]
+[ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="20_gqmmt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_choun"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -113,11 +115,13 @@ show_percentage = false
 
 [node name="Bank" type="Button" parent="Main/CenterBank/VBoxContainer" unique_id=89918896]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 1
-icon = ExtResource("30_fv21b")
+icon = ExtResource("7_gqmmt")
 flat = true
+expand_icon = true
 
 [node name="ShopMenu" type="Control" parent="Main" unique_id=2068719440]
 unique_name_in_owner = true
@@ -302,17 +306,32 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1080952969]
+z_index = -5
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("19_0ld40")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1307455331]
+script = ExtResource("20_gqmmt")
+
 [connection signal="value_changed" from="Main/CenterBank/VBoxContainer/HealthBank" to="Main/Tweenss" method="_on_health_bank_value_changed"]
 [connection signal="gui_input" from="Main/CenterBank/VBoxContainer/Bank" to="Main/Tweenss" method="_on_bank_gui_input"]
 [connection signal="pressed" from="Main/CenterBank/VBoxContainer/Bank" to="Main" method="OnBank"]
+[connection signal="pressed" from="Main/CenterBank/VBoxContainer/Bank" to="Main/sfx" method="Click"]
 [connection signal="pressed" from="Main/ShopMenu/ShopPanel/Exit" to="Main/Tweenss" method="_on_exit_pressed"]
 [connection signal="pressed" from="Main/ShopButton" to="Main/Tweenss" method="_on_shop_button_pressed"]
+[connection signal="pressed" from="Main/ShopButton" to="Main/sfx" method="Click"]
 [connection signal="gui_input" from="Main/buttons/Hack" to="Main/Tweenss" method="_on_hack_gui_input"]
 [connection signal="pressed" from="Main/buttons/Hack" to="Main" method="OnHack"]
 [connection signal="pressed" from="Main/buttons/Hack" to="Main/sfx" method="Click"]
 [connection signal="gui_input" from="Main/buttons/Bomb" to="Main/Tweenss" method="_on_bomb_gui_input"]
 [connection signal="pressed" from="Main/buttons/Bomb" to="Main" method="OnBomb"]
+[connection signal="pressed" from="Main/buttons/Bomb" to="Main/sfx" method="Click"]
 [connection signal="gui_input" from="Main/buttons/Sabotage" to="Main/Tweenss" method="_on_sabotage_gui_input"]
 [connection signal="pressed" from="Main/buttons/Sabotage" to="Main" method="OnSabotage"]
+[connection signal="pressed" from="Main/buttons/Sabotage" to="Main/sfx" method="Click"]
 [connection signal="gui_input" from="Main/buttons/Loan" to="Main/Tweenss" method="_on_loan_gui_input"]
 [connection signal="pressed" from="Main/buttons/Loan" to="Main" method="OnLoan"]
+[connection signal="pressed" from="Main/buttons/Loan" to="Main/sfx" method="Click"]

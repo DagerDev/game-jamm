@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://3wh07r6dgcly"]
 
 [ext_resource type="Script" uid="uid://c54rs6sdtv0bx" path="res://scenes/mainmenu/control.gd" id="1_1css7"]
+[ext_resource type="Texture2D" uid="uid://bx3xni7skukxe" path="res://assets/credits/bg.png" id="2_542r0"]
 [ext_resource type="Texture2D" uid="uid://by858w353cfg" path="res://assets/cutscenes/CS1/1/1 bg.png" id="2_oktx4"]
 [ext_resource type="Texture2D" uid="uid://f8kty54vf000" path="res://assets/cutscenes/CS1/1/1 furniture(on top of character).png" id="3_ckupo"]
-[ext_resource type="Texture2D" uid="uid://lj3i7hcs8kp8" path="res://assets/cutscenes/CS1/3/3 bg.png" id="4_2x7eg"]
+[ext_resource type="Texture2D" uid="uid://dknkb5nyirojr" path="res://assets/credits/headlines.png" id="4_8gim3"]
 [ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="4_fi8nj"]
 [ext_resource type="Texture2D" uid="uid://bllvqgsysj2v0" path="res://assets/cutscenes/CS1/3/3 character.png" id="5_ugunp"]
 [ext_resource type="AudioStream" uid="uid://cj51vavv0h7jp" path="res://assets/Audio/sfx/button_fx_verse_009_cc0_avr.wav" id="6_vvrmg"]
 [ext_resource type="AudioStream" uid="uid://dnyo12r63u4yf" path="res://assets/Audio/sfx/button_fx_verse_008_cc0_avr.wav" id="7_542r0"]
 [ext_resource type="Script" uid="uid://drhrjxpya5k4x" path="res://scenes/mainmenu/sfx.gd" id="9_aqxfm"]
+[ext_resource type="Texture2D" uid="uid://bnx411mdld1t0" path="res://assets/story.png" id="11_aqxfm"]
 
 [sub_resource type="Theme" id="Theme_2x7eg"]
 Button/colors/font_color = Color(0.90890294, 0.79796034, 0.63194895, 1)
@@ -56,6 +58,10 @@ theme = SubResource("Theme_2x7eg")
 unique_name_in_owner = true
 layout_mode = 2
 text = "play"
+
+[node name="Story" type="Button" parent="control/VBoxContainer" unique_id=121869299]
+layout_mode = 2
+text = "STORY"
 
 [node name="Credit" type="Button" parent="control/VBoxContainer" unique_id=1414574137]
 unique_name_in_owner = true
@@ -259,7 +265,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("4_2x7eg")
+texture = ExtResource("2_542r0")
 stretch_mode = 2
 
 [node name="V2" type="TextureRect" parent="control/V1" unique_id=1747016869]
@@ -286,23 +292,39 @@ theme_override_font_sizes/font_size = 40
 text = "X"
 flat = true
 
-[node name="Label" type="Label" parent="control/V1" unique_id=371877162]
+[node name="credit" type="Label" parent="control/V1" unique_id=371877162]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -270.5
-offset_top = -41.5
-offset_right = 270.5
-offset_bottom = 41.5
+offset_left = 62.00003
+offset_top = -269.0
+offset_right = 665.0
+offset_bottom = 443.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.1455414
+rotation = -0.0015168488
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 60
-text = "Credittsss hereeee"
+theme_override_font_sizes/font_size = 20
+text = "Programmer: Kfl \"Dagger\"
+artist:
+Rion
+Nabilwhateverjackson
+support:
+Mather
+Empath
+
+email: darkerdag@gmail.com
+contact us"
+
+[node name="V3" type="TextureRect" parent="control/V1" unique_id=1799142614]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("4_8gim3")
 
 [node name="background" type="Control" parent="." unique_id=915260636]
 z_index = -1
@@ -330,9 +352,43 @@ bus = &"SFX"
 stream = ExtResource("7_542r0")
 bus = &"SFX"
 
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1154521252]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer" unique_id=16685565]
+custom_minimum_size = Vector2(800, 1500)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("11_aqxfm")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="ScrollContainer/TextureRect" unique_id=637626745]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -24.5
+offset_top = -29.0
+offset_right = 24.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+text = "Back"
+
 [connection signal="mouse_entered" from="control/VBoxContainer/Play" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Play" to="control" method="on_play"]
 [connection signal="pressed" from="control/VBoxContainer/Play" to="sfx" method="Click"]
+[connection signal="mouse_entered" from="control/VBoxContainer/Story" to="sfx" method="Hover"]
+[connection signal="pressed" from="control/VBoxContainer/Story" to="control" method="_on_story_pressed"]
+[connection signal="pressed" from="control/VBoxContainer/Story" to="sfx" method="Click"]
 [connection signal="mouse_entered" from="control/VBoxContainer/Credit" to="sfx" method="Hover"]
 [connection signal="pressed" from="control/VBoxContainer/Credit" to="control" method="_on_credit_pressed"]
 [connection signal="pressed" from="control/VBoxContainer/Credit" to="sfx" method="Click"]
@@ -344,3 +400,4 @@ bus = &"SFX"
 [connection signal="pressed" from="control/VBoxContainer/Exist" to="sfx" method="Click"]
 [connection signal="pressed" from="control/Settings/Close" to="control" method="_on_back_button_pressed"]
 [connection signal="pressed" from="control/V1/Button" to="control" method="_on_credits_back_pressed"]
+[connection signal="pressed" from="ScrollContainer/TextureRect/Button" to="control" method="story_exit"]
