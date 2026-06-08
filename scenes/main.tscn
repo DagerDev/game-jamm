@@ -1,13 +1,18 @@
 [gd_scene format=3 uid="uid://dr0bq5m6vwnb"]
 
 [ext_resource type="Script" uid="uid://px6w0pneo0y0" path="res://scripts/control.gd" id="1_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://c1ogxyxbg310x" path="res://assets/icons/Hack.png" id="2_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://dr8b1m2gxs6p2" path="res://objects/choicebutton.tscn" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://pcs54xeig428" path="res://assets/icons/bomb.png" id="3_0ld40"]
+[ext_resource type="Texture2D" uid="uid://irqdg5iacif6" path="res://assets/icons/Sabotage.png" id="4_gqmmt"]
 [ext_resource type="PackedScene" uid="uid://bb5ynk620ml8a" path="res://objects/shopButton.tscn" id="4_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://lssqoxr1myan" path="res://assets/Shop/shop bg.png" id="4_tipki"]
 [ext_resource type="Script" uid="uid://qu6065yox4cv" path="res://scripts/control2.gd" id="5_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://dir1fsc0e1igb" path="res://assets/Shop/shop icon.png" id="5_tefeu"]
+[ext_resource type="Texture2D" uid="uid://c1aum2g8qd5gv" path="res://assets/icons/loan.png" id="5_yc10j"]
 [ext_resource type="Texture2D" uid="uid://ct4yp06pfi0p0" path="res://assets/Shop/shop owner.png" id="6_85g3d"]
 [ext_resource type="Texture2D" uid="uid://c4h4lvevntsy2" path="res://assets/Shop/shops ugrades bg.png" id="6_choun"]
+[ext_resource type="Texture2D" uid="uid://c4noqo5id4f5s" path="res://assets/icons/pay.png" id="6_jscy8"]
 [ext_resource type="Texture2D" uid="uid://db2lx6bsfmc6t" path="res://assets/Shop/shop table over upgrades bg.png" id="7_ya4ey"]
 [ext_resource type="Script" uid="uid://bj6od6u72b8xq" path="res://scripts/sfx2.gd" id="11_ya4ey"]
 [ext_resource type="AudioStream" uid="uid://cj51vavv0h7jp" path="res://assets/Audio/sfx/button_fx_verse_009_cc0_avr.wav" id="12_trceg"]
@@ -29,6 +34,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0wfyh")
+hack_icon = ExtResource("2_dp3eg")
+bomb_icon = ExtResource("3_0ld40")
+sabotage_icon = ExtResource("4_gqmmt")
+loan_icon = ExtResource("5_yc10j")
+pay_icon = ExtResource("6_jscy8")
 
 [node name="CenterActions" type="CenterContainer" parent="Main" unique_id=1373171639]
 layout_mode = 1
@@ -111,7 +121,6 @@ flat = true
 
 [node name="ShopMenu" type="Control" parent="Main" unique_id=2068719440]
 unique_name_in_owner = true
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -119,6 +128,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_force_pass_scroll_events = false
 
 [node name="ShopPanel" type="TextureRect" parent="Main/ShopMenu" unique_id=53839119]
 unique_name_in_owner = true
@@ -128,7 +138,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
 texture = ExtResource("4_tipki")
 
 [node name="Shop" type="Label" parent="Main/ShopMenu/ShopPanel" unique_id=1916171419]
@@ -202,6 +213,10 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="PassiveBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=1397489780 instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Exit" type="Button" parent="Main/ShopMenu/ShopPanel" unique_id=940595446]
 unique_name_in_owner = true
 z_index = 5
@@ -222,9 +237,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -42.0
-offset_right = 110.0
-offset_bottom = 58.0
+offset_left = 11.0
+offset_top = 31.0
+offset_right = 121.0
+offset_bottom = 131.0
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 0.63529414)
 theme_override_font_sizes/font_size = 27
@@ -273,22 +289,18 @@ alignment = 1
 [node name="Hack" parent="Main/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
-button_text = "Hack"
 
 [node name="Bomb" parent="Main/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
-button_text = "Bomb"
 
 [node name="Sabotage" parent="Main/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
-button_text = "sabotage"
 
 [node name="Loan" parent="Main/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
-button_text = "loan"
 
 [connection signal="value_changed" from="Main/CenterBank/VBoxContainer/HealthBank" to="Main/Tweenss" method="_on_health_bank_value_changed"]
 [connection signal="gui_input" from="Main/CenterBank/VBoxContainer/Bank" to="Main/Tweenss" method="_on_bank_gui_input"]

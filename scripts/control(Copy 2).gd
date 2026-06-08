@@ -5,41 +5,29 @@ extends Control
 # =========================================================
 @onready var PlayerLabel = %PlayerStats
 @onready var BankLabel = %BankStats
+#@onready var InfoLabel = %StatusLabel
 @onready var HealthBar = %HealthBank
 @onready var shop_controller = %Tweenss
-
-@onready var actions = [%Hack,%Bomb,%Sabotage,%Loan]
-
-@export var hack_icon: Texture2D
-@export var bomb_icon: Texture2D
-@export var sabotage_icon: Texture2D
-@export var loan_icon: Texture2D
-@export var pay_icon: Texture2D
-
-var action_icons = []
 
 @onready var shopbut = [
 	%HackingBuy,
 	%BombingBuy,
 	%SabotageBuy,
-	%ClickingBuy,
-	%PassiveBuy
+	%ClickingBuy
 ]
 
 const shopTitles = [
 	"Upgrade Hacking",
 	"Upgrade Bombing",
 	"Upgrade Sabotage",
-	"Upgrade Clicking",
-	"Upgrade Passive Income"
+	"Upgrade Clicking"
 ]
 
 var shopfunc = [
 	UpgradeHacking,
 	UpgradeBombing,
 	UpgradeSabotage,
-	UpgradeClick,
-	UpgradePassive
+	UpgradeClick
 ]
 
 # =========================================================
@@ -52,11 +40,11 @@ var hacking := 1
 var bombing := 1
 var sabotage_power := 1
 var click_power := 1
-var passive_income := 0
 
 # =========================================================
 # BANK
 # =========================================================
+
 var bank_hp := 1000
 var bank_max_hp := 1000
 
@@ -68,16 +56,28 @@ var building_strength := 1
 # GAME
 # =========================================================
 var turn := 0
+
 var game_over := false
+
 var negative_turns := 0
 
 var action_cd := 0.0
 const ACTION_CD_TIME := 0.5
 
 # =========================================================
+# MESSAGE QUEUE
+# prevents text instantly replacing itself
+# =========================================================
+var message_queue:Array[String] = []
+
+var current_message_time := 0.0
+const MESSAGE_DURATION := 2.0
+
+# =========================================================
 # TIMERS
 # =========================================================
 var passive_timer := 0.0
+var event_timer := 0.0
 
 # =========================================================
 # LOAN
@@ -117,12 +117,6 @@ var upgrades := {
 		"level": 1,
 		"price": 25,
 		"growth": 1.30
-	},
-
-	"Passive": {
-		"level": 1,
-		"price": 100,
-		"growth": 1.50
 	}
 }
 
@@ -134,22 +128,32 @@ func _process(delta):
 	if action_cd > 0:
 		action_cd -= delta
 
+	#if message_timer > 0:
+		#message_timer -= delta
+		#if message_timer <= 0:
+			#InfoLabel.text = ""
+
 	passive_timer += delta
 
-	if passive_timer >= 1.0:
-
+	if passive_timer >= 5.0:
 		passive_timer = 0
 
-		if passive_income > 0:
+		var passive_income = max(1, click_power / 2.0)
 
-			money += passive_income
+		money += passive_income
 
-			update_ui()
+		push_message(
+			"Passive Income\n+$%s" % passive_income
+		)
+
+		update_ui()
 
 # =========================================================
 # MESSAGE SYSTEM
 # =========================================================
-func push_message(text:String):
+var message_timer := 0.0
+
+func push_message(text:String): 
 	shop_controller.push_message(text)
 
 # =========================================================
@@ -158,22 +162,21 @@ func push_message(text:String):
 func update_ui():
 
 	PlayerLabel.text = \
-		"PLAYER\n" + \
-		"Money: $" + str(money) + "\n" + \
-		"Debt: $" + str(debt) + "\n" + \
-		"Passive: $" + str(passive_income) + "/s\n" + \
-		"\nHacking: " + str(hacking) + "\n" + \
-		"Bombing: " + str(bombing) + "\n" + \
-		"Sabotage: " + str(sabotage_power) + "\n" + \
-		"Click: " + str(click_power) + "\n" + \
-		"\nTurn: " + str(turn)
+	"PLAYER\n" + \
+	"Money: $" + str(money) + "\n" + \
+	"Debt: $" + str(debt) + "\n" + \
+	"\nHacking: " + str(hacking) + "\n" + \
+	"Bombing: " + str(bombing) + "\n" + \
+	"Sabotage: " + str(sabotage_power) + "\n" + \
+	"Click: " + str(click_power) + "\n" + \
+	"\nTurn: " + str(turn)
 
 	BankLabel.text = \
-		"BANK\n" + \
-		"HP: " + str(bank_hp) + "/" + str(bank_max_hp) + "\n" + \
-		"Security: " + str(security) + "\n" + \
-		"Cyber: " + str(cybersecurity) + "\n" + \
-		"Strength: " + str(building_strength)
+	"BANK Lv." + str(bank_level) + "\n" + \
+	"HP: " + str(bank_hp) + "/" + str(bank_max_hp) + "\n" + \
+	"Security: " + str(security) + "\n" + \
+	"Cyber: " + str(cybersecurity) + "\n" + \
+	"Strength: " + str(building_strength)
 
 	HealthBar.max_value = bank_max_hp
 	HealthBar.value = bank_hp
@@ -182,11 +185,10 @@ func update_ui():
 		upgrades["Hacking"].price,
 		upgrades["Bombing"].price,
 		upgrades["Sabotage"].price,
-		upgrades["Click"].price,
-		upgrades["Passive"].price
+		upgrades["Click"].price
 	]
 
-	for i in range(shopbut.size()):
+	for i in shopbut.size():
 		shopbut[i].getPrice(upgradesPrice[i])
 
 # =========================================================
@@ -204,7 +206,6 @@ func can_action() -> bool:
 
 	return true
 
-
 func next_turn():
 
 	turn += 1
@@ -213,22 +214,26 @@ func next_turn():
 	process_negative_money()
 	process_bank_upgrade()
 	process_random_event()
+	check_bank_phase()
 	check_win()
 
 	update_ui()
 
-
 func check_win():
+	if bank_hp <= 0:
+		game_over = true
+		push_message("YOU DESTROYED THE BANK!")
 
-	if bank_hp > 0:
-		return
+func spawn_new_bank():
 
-	game_over = true
+	bank_max_hp = 1000 + (bank_level * 400)
+	bank_hp = bank_max_hp
 
-	push_message(
-		"VICTORY\n\nYou Destroyed The Bank!\n\nCreated By King"
-	)
+	security = 1 + bank_level
+	cybersecurity = 1 + bank_level
+	building_strength = 1 + bank_level
 
+	update_ui()
 
 func process_negative_money():
 
@@ -237,8 +242,8 @@ func process_negative_money():
 		negative_turns += 1
 
 		push_message(
-			"BANKRUPTCY WARNING\n\nNegative balance for %s / 5 turns."
-			% negative_turns
+			"Negative Balance!\n(%s/5)" %
+			negative_turns
 		)
 
 		if negative_turns >= 5:
@@ -246,36 +251,18 @@ func process_negative_money():
 			game_over = true
 
 			push_message(
-				"GAME OVER\n\nYou went bankrupt."
+				"GAME OVER\nBankrupt"
 			)
 
 	else:
 
 		negative_turns = 0
 
-# =========================================================
-# LOAN SYSTEM
-# =========================================================
 func process_loan():
 
 	if !loan_active:
 		return
 
-	# reminder
-	if turn == loan_turn_due - 3:
-
-		push_message(
-			"PAYMENT REMINDER\n\nThe lender expects repayment in 3 turns."
-		)
-
-	# final warning
-	if turn == loan_turn_due - 1:
-
-		push_message(
-			"FINAL WARNING\n\nDebt collection will occur next turn."
-		)
-
-	# collect debt
 	if turn < loan_turn_due:
 		return
 
@@ -284,19 +271,23 @@ func process_loan():
 	money -= repayment
 
 	push_message(
-		"DEBT COLLECTOR\n\nThe lender collected your unpaid loan.\n\n-$%s"
-		% repayment
+		"Loan Collected!\n-$%s" %
+		repayment
 	)
 
 	debt = 0
 	loan_amount = 0
 	loan_active = false
-	update_loan_button()
 
+func check_bank_phase():
 
-# =========================================================
-# BANK UPGRADES
-# =========================================================
+	var hp_percent = float(bank_hp) / float(bank_max_hp)
+
+	if hp_percent <= 0.25:
+
+		security += 1
+		cybersecurity += 1
+
 func process_bank_upgrade():
 
 	if turn == 0:
@@ -310,121 +301,81 @@ func process_bank_upgrade():
 	match roll:
 
 		0:
-
-			security += randi_range(1, 2)
+			security += randi_range(1,2)
 
 			push_message(
-				"BANK SECURITY UPGRADE\n\nNew guards and procedures have been implemented.\n\nSecurity +1"
+				"Bank Upgraded Security"
 			)
 
 		1:
-
-			cybersecurity += randi_range(1, 2)
+			cybersecurity += randi_range(1,2)
 
 			push_message(
-				"CYBERSECURITY PATCH\n\nThe bank deployed new security software.\n\nCybersecurity +1"
+				"Bank Upgraded Cybersecurity"
 			)
 
 		2:
-
-			building_strength += randi_range(1, 2)
+			building_strength += randi_range(1,2)
 
 			push_message(
-				"STRUCTURAL REINFORCEMENT\n\nThe bank improved physical defenses.\n\nStrength +1"
+				"Bank Upgraded Strength"
 			)
 
-
-# =========================================================
-# RANDOM EVENTS
-# =========================================================
 func process_random_event():
 
 	if turn < event_cooldown:
 		return
 
-	# 35% chance
-	if randi_range(1, 100) > 35:
+	if randi_range(1,100) > 20:
 		return
 
-	event_cooldown = turn + 3
+	event_cooldown = turn + 4
 
-	var roll = randi() % 8
+	var roll = randi() % 5
 
 	match roll:
 
 		0:
-
-			var reward = randi_range(50, 150)
+			var reward = randi_range(30,100)
 
 			money += reward
 
 			push_message(
-				"ANONYMOUS DONOR\n\nAn unknown individual transferred money into your account.\n\n+$%s"
+				"Anonymous Donation\n+$%s"
 				% reward
 			)
 
 		1:
-
-			var fine = randi_range(30, 100)
+			var fine = randi_range(20,80)
 
 			money -= fine
 
 			push_message(
-				"POLICE INVESTIGATION\n\nAuthorities investigated suspicious activity.\n\n-$%s"
+				"Police Investigation\n-$%s"
 				% fine
 			)
 
 		2:
-
 			hacking += 1
 
 			push_message(
-				"SOFTWARE LEAK\n\nConfidential bank software was leaked.\n\nHacking +1"
+				"Found Exploit\nHack +1"
 			)
 
 		3:
-
 			bombing += 1
 
 			push_message(
-				"BLACK MARKET CONTACT\n\nNew equipment has become available.\n\nBombing +1"
+				"Black Market Deal\nBomb +1"
 			)
 
 		4:
-
 			click_power += 1
 
 			push_message(
-				"SIDE BUSINESS\n\nA small side operation generated experience.\n\nClick +1"
+				"Side Job\nClick +1"
 			)
-
-		5:
-
-			security = max(1, security - 1)
-
-			push_message(
-				"POWER OUTAGE\n\nSeveral security systems temporarily failed.\n\nSecurity -1"
-			)
-
-		6:
-
-			cybersecurity = max(1, cybersecurity - 1)
-
-			push_message(
-				"NETWORK FAILURE\n\nThe bank suffered a system outage.\n\nCybersecurity -1"
-			)
-
-		7:
-
-			var cash = randi_range(25, 75)
-
-			money += cash
-
-			push_message(
-				"FOUND CASH\n\nA hidden stash of money was discovered.\n\n+$%s"
-				% cash
-			)
-
+			
 # =========================================================
 # ACTIONS
 # =========================================================
@@ -440,7 +391,7 @@ func OnHack():
 		95
 	)
 
-	if randi_range(1, 100) <= chance:
+	if randi_range(1,100) <= chance:
 
 		var reward = randi_range(
 			25 + hacking * 10,
@@ -448,20 +399,20 @@ func OnHack():
 		)
 
 		# critical hack
-		if randi_range(1, 100) <= 10:
+		if randi_range(1,100) <= 10:
 
 			reward *= 3
 
 			push_message(
-				"CRITICAL HACK\n\nA major vulnerability was exploited.\n\n+$%s"
-				% reward
+				"CRITICAL HACK!\n+$%s" %
+				reward
 			)
 
 		else:
 
 			push_message(
-				"HACK SUCCESS\n\nFunds were successfully transferred.\n\n+$%s"
-				% reward
+				"Hack Success\n+$%s" %
+				reward
 			)
 
 		money += reward
@@ -476,12 +427,11 @@ func OnHack():
 		money -= loss
 
 		push_message(
-			"HACK FAILED\n\nThe attack was detected.\n\n-$%s"
-			% loss
+			"Hack Failed\n-$%s" %
+			loss
 		)
 
 	next_turn()
-
 
 # =========================================================
 
@@ -496,7 +446,7 @@ func OnBomb():
 		95
 	)
 
-	if randi_range(1, 100) <= caught:
+	if randi_range(1,100) <= caught:
 
 		var fine = randi_range(
 			20,
@@ -506,8 +456,8 @@ func OnBomb():
 		money -= fine
 
 		push_message(
-			"CAUGHT\n\nAuthorities intercepted the operation.\n\n-$%s"
-			% fine
+			"CAUGHT!\n-$%s" %
+			fine
 		)
 
 	else:
@@ -518,20 +468,21 @@ func OnBomb():
 			(building_strength * 3)
 		)
 
-		if randi_range(1, 100) <= 15:
+		# critical explosion
+		if randi_range(1,100) <= 15:
 
 			damage *= 2
 
 			push_message(
-				"MEGA EXPLOSION\n\nThe blast exceeded expectations.\n\n-%s HP"
-				% damage
+				"MEGA EXPLOSION!\n-%s HP" %
+				damage
 			)
 
 		else:
 
 			push_message(
-				"EXPLOSION\n\nThe bank suffered structural damage.\n\n-%s HP"
-				% damage
+				"BOOM!\n-%s HP" %
+				damage
 			)
 
 		bank_hp -= damage
@@ -540,7 +491,6 @@ func OnBomb():
 			bank_hp = 0
 
 	next_turn()
-
 
 # =========================================================
 
@@ -559,7 +509,10 @@ func OnSabotage():
 
 		0:
 
-			var amount = max(1, sabotage_power)
+			var amount = max(
+				1,
+				sabotage_power
+			)
 
 			security = max(
 				1,
@@ -567,13 +520,16 @@ func OnSabotage():
 			)
 
 			push_message(
-				"SABOTAGE SUCCESS\n\nSecurity procedures were disrupted.\n\nSecurity -%s"
+				"Security Reduced\n-%s"
 				% amount
 			)
 
 		1:
 
-			var amount = max(1, sabotage_power)
+			var amount = max(
+				1,
+				sabotage_power
+			)
 
 			cybersecurity = max(
 				1,
@@ -581,13 +537,16 @@ func OnSabotage():
 			)
 
 			push_message(
-				"SABOTAGE SUCCESS\n\nCritical systems were compromised.\n\nCybersecurity -%s"
+				"Cybersecurity Reduced\n-%s"
 				% amount
 			)
 
 		2:
 
-			var amount = max(1, sabotage_power)
+			var amount = max(
+				1,
+				sabotage_power
+			)
 
 			building_strength = max(
 				1,
@@ -595,15 +554,15 @@ func OnSabotage():
 			)
 
 			push_message(
-				"SABOTAGE SUCCESS\n\nPhysical infrastructure was weakened.\n\nStrength -%s"
+				"Building Strength Reduced\n-%s"
 				% amount
 			)
 
 	next_turn()
 
-
 # =========================================================
-# LOAN BUTTON
+# LOAN
+# Press again while loan exists to repay it
 # =========================================================
 
 func OnLoan():
@@ -611,13 +570,13 @@ func OnLoan():
 	if !can_action():
 		return
 
-	# repay current loan
+	# repay existing loan
 	if loan_active:
 
 		if money < debt:
 
 			push_message(
-				"LOAN REPAYMENT\n\nYou need $%s to repay the loan."
+				"Need $%s To Repay"
 				% debt
 			)
 
@@ -626,43 +585,46 @@ func OnLoan():
 		money -= debt
 
 		push_message(
-			"LOAN REPAID\n\nThe debt has been cleared.\n\n-$%s"
+			"Loan Repaid\n-$%s"
 			% debt
 		)
 
 		debt = 0
 		loan_amount = 0
-		loan_turn_due = -1
 		loan_active = false
-		update_loan_button()
+		loan_turn_due = -1
 
 		next_turn()
 		return
 
-	# take new loan
+	# take loan
 
-	var amount = 250
+	var amount = 250 + bank_level * 50
 
 	money += amount
 
 	loan_amount = amount
-	debt = int(amount * 1.5)
+
+	debt = int(amount * 1.50)
 
 	loan_active = true
-	
-	loan_turn_due = turn + randi_range(10, 15)
-	update_loan_button()
-	
+
+	loan_turn_due = turn + randi_range(
+		10,
+		15
+	)
+
 	push_message(
-		"LOAN APPROVED\n\nFunds have been deposited.\n\n+$%s\nRepay: $%s"
+		"Loan Approved\n+$%s\nRepay $%s"
 		% [amount, debt]
 	)
 
 	next_turn()
 
-
 # =========================================================
 # CLICK
+# Strong early game
+# Weak late game
 # =========================================================
 
 func OnBank():
@@ -672,9 +634,11 @@ func OnBank():
 
 	var earned = max(
 		1,
-		click_power + int(hacking * 0.3)
+		click_power +
+		int(hacking * 0.3)
 	)
 
+	# diminishing returns
 	earned = max(
 		1,
 		earned - int(turn / 25.0)
@@ -683,11 +647,12 @@ func OnBank():
 	money += earned
 
 	push_message(
-		"MANUAL INCOME\n\n+$%s"
+		"+$%s"
 		% earned
 	)
 
 	update_ui()
+
 
 # =========================================================
 # SHOP
@@ -696,25 +661,17 @@ func OnBank():
 func UpgradeHacking():
 	buy_upgrade("Hacking")
 
-
 func UpgradeBombing():
 	buy_upgrade("Bombing")
-
 
 func UpgradeSabotage():
 	buy_upgrade("Sabotage")
 
-
 func UpgradeClick():
 	buy_upgrade("Click")
 
-
-func UpgradePassive():
-	buy_upgrade("Passive")
-
-
 # =========================================================
-# BUY UPGRADE
+# BALANCED SHOP
 # =========================================================
 
 func buy_upgrade(id:String):
@@ -724,8 +681,8 @@ func buy_upgrade(id:String):
 	if money < item.price:
 
 		push_message(
-			"SHOP\n\nNot enough money.\n\nNeed $%s"
-			% item.price
+			"Not Enough Money!\nNeed $" +
+			str(item.price)
 		)
 
 		return
@@ -741,8 +698,8 @@ func buy_upgrade(id:String):
 			hacking += 1
 
 			push_message(
-				"HACKING UPGRADE\n\nLevel %s"
-				% item.level
+				"Hacking Lv." +
+				str(item.level)
 			)
 
 		"Bombing":
@@ -750,8 +707,8 @@ func buy_upgrade(id:String):
 			bombing += 1
 
 			push_message(
-				"BOMBING UPGRADE\n\nLevel %s"
-				% item.level
+				"Bombing Lv." +
+				str(item.level)
 			)
 
 		"Sabotage":
@@ -759,8 +716,8 @@ func buy_upgrade(id:String):
 			sabotage_power += 1
 
 			push_message(
-				"SABOTAGE UPGRADE\n\nLevel %s"
-				% item.level
+				"Sabotage Lv." +
+				str(item.level)
 			)
 
 		"Click":
@@ -768,22 +725,17 @@ func buy_upgrade(id:String):
 			click_power += 1
 
 			push_message(
-				"CLICK UPGRADE\n\nLevel %s"
-				% item.level
+				"Click Lv." +
+				str(item.level)
 			)
 
-		"Passive":
-
-			passive_income += 1
-
-			push_message(
-				"PASSIVE INCOME UPGRADE\n\nIncome +1/sec"
-			)
-
-	# scale prices
+	# -------------------------
+	# Dynamic scaling
+	# -------------------------
 
 	var growth = item.growth
 
+	# make high levels expensive
 	if item.level >= 10:
 		growth += 0.05
 
@@ -802,7 +754,6 @@ func buy_upgrade(id:String):
 
 	update_ui()
 
-
 # =========================================================
 # RESET GAME
 # =========================================================
@@ -816,7 +767,8 @@ func reset_game():
 	bombing = 1
 	sabotage_power = 1
 	click_power = 1
-	passive_income = 0
+
+	bank_level = 1
 
 	bank_hp = 1000
 	bank_max_hp = 1000
@@ -828,6 +780,7 @@ func reset_game():
 	turn = 0
 
 	game_over = false
+
 	negative_turns = 0
 
 	loan_active = false
@@ -859,59 +812,26 @@ func reset_game():
 			"level": 1,
 			"price": 25,
 			"growth": 1.30
-		},
-
-		"Passive": {
-			"level": 1,
-			"price": 100,
-			"growth": 1.50
 		}
 	}
 
 	update_ui()
 
 	push_message(
-		"NEW GAME\n\nDestroy the bank."
-	 )
-
-const LOAN_INDEX := 3
-
-func update_loan_button():
-
-	if loan_active:
-		actions[LOAN_INDEX].update_text("Pay")
-		actions[LOAN_INDEX].update_icon(pay_icon)
-	else:
-		actions[LOAN_INDEX].update_text("Loan")
-		actions[LOAN_INDEX].update_icon(loan_icon)
+		"New Game Started"
+	)
 
 # =========================================================
 # READY
 # =========================================================
 
 func _ready():
-	
-	action_icons = [
-	hack_icon,
-	bomb_icon,
-	sabotage_icon,
-	loan_icon
-	]
-	
-	
-	update_loan_button()
-	
-	for i in range(actions.size()):
-		actions[i].update_button(
-		actions[i].button_text,
-		action_icons[i]
-	)
-	
+
 	randomize()
 
 	update_ui()
 
-	for i in range(shopbut.size()):
+	for i in shopbut.size():
 
 		shopbut[i].OnBuy.connect(
 			shopfunc[i]
@@ -922,13 +842,13 @@ func _ready():
 		)
 
 	push_message(
-		"MISSION\n\nDestroy the bank before going bankrupt."
+		"Destroy The Bank"
 	)
 
 	push_message(
-		"TIP\n\nHacking is the fastest early-game income source."
+		"Upgrade Hacking For Fast Money"
 	)
 
 	push_message(
-		"TIP\n\nLoans can be repaid early by pressing the loan button again."
+		"Loan Can Be Repaid Early"
 	)

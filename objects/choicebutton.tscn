@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c1aum2g8qd5gv" path="res://assets/icons/loan.png" id="2_ep2lt"]
 
 [node name="Choice" type="Button" unique_id=780817041]
+z_index = -1
 offset_top = -2.0
 offset_right = 90.0
 offset_bottom = 121.0

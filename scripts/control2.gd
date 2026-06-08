@@ -124,6 +124,9 @@ func _on_health_bank_value_changed(_value: float) -> void:
 	tween_health.tween_property(health, "scale", Vector2.ONE, 0.06)
 
 func _on_shop_button_pressed() -> void:
+	shopMenu.mouse_filter = Control.MOUSE_FILTER_STOP
+	shopPanel.mouse_filter = Control.MOUSE_FILTER_STOP
+	
 	start_shopkeeper_idle()
 	if tween_shop: tween_shop.kill()
 	shop_open = true
@@ -136,6 +139,9 @@ func _on_shop_button_pressed() -> void:
 	tween_shop.tween_property(shopPanel, "position", panel_start_pos, 0.5)
 
 func _on_exit_pressed() -> void:
+	shopMenu.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shopPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
 	if tween_shop: tween_shop.kill()
 	shop_open = false
 	tween_shop = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
