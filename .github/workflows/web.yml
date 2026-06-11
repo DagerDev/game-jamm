@@ -2,6 +2,8 @@ name: Export Godot Web
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   build:
@@ -11,28 +13,52 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Setup Godot
+      # -----------------------------
+      # Setup Godot
+      # -----------------------------
+      - name: Download Godot
         run: |
-          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
-          unzip Godot_v4.6-stable_linux.x86_64.zip
+          wget -q https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
+          unzip -q Godot_v4.6-stable_linux.x86_64.zip
           chmod +x Godot_v4.6-stable_linux.x86_64
+          mv Godot_v4.6-stable_linux.x86_64 godot
 
-      - name: Setup export templates
+      # -----------------------------
+      # Setup Export Templates
+      # -----------------------------
+      - name: Install export templates
         run: |
           mkdir -p ~/.local/share/godot/export_templates/4.6.stable/
-          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
-          unzip Godot_v4.6-stable_export_templates.tpz
+          wget -q https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
+          unzip -q Godot_v4.6-stable_export_templates.tpz
           mv templates/* ~/.local/share/godot/export_templates/4.6.stable/
 
-      - name: Export Web
+      # -----------------------------
+      # Verify project exists
+      # -----------------------------
+      - name: Validate project
+        run: |
+          if [ ! -f "project.godot" ]; then
+            echo "ERROR: project.godot not found in repo root"
+            exit 1
+          fi
+
+      # -----------------------------
+      # Export Web
+      # -----------------------------
+      - name: Export Web Build
         run: |
           mkdir -p build
-          ./Godot_v4.6-stable_linux.x86_64 --headless \
-          --path . \
-          --export-release "Web" build/index.html
 
+          ./godot --headless --path . \
+            --export-release "Web" build/index.html
+
+      # -----------------------------
+      # Deploy to GitHub Pages
+      # -----------------------------
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
