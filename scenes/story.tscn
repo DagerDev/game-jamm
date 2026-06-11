@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bmgo8b38w63uf"]
 
-[ext_resource type="Texture2D" uid="uid://dograump3kury" path="res://assets/20260608_134855.png" id="1_lcs0l"]
+[ext_resource type="Texture2D" uid="uid://dograump3kury" path="res://assets/ending.png" id="1_lcs0l"]
 [ext_resource type="Script" uid="uid://l1r4c444sc51" path="res://scenes/st.gd" id="1_md1pp"]
 [ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="2_1octt"]
 

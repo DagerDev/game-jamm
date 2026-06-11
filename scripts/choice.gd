@@ -4,7 +4,7 @@ class_name choiceButton
 # =========================================================
 # NODES
 # =========================================================
-@onready var icon_rect: TextureRect = $TextureRect
+@onready var icon_rect: TextureRect = $"TextureRect"
 @onready var label: Label = $Label
 
 # =========================================================
@@ -34,18 +34,8 @@ func update_text(new_text: String):
 # ICON UPDATE
 # =========================================================
 func update_icon(texture: Texture2D):
-
-	if is_node_ready():
-		icon_rect.texture = texture
-
-
-# =========================================================
-# FULL UPDATE
-# =========================================================
-func update_button(new_text: String, texture: Texture2D):
-
-	button_text = new_text
-
-	if is_node_ready():
-		label.text = new_text
-		icon_rect.texture = texture
+	var icon_rectt = get_node("TextureRect")
+	if icon_rectt:
+		icon_rectt.texture = texture
+	else:
+		push_error("TextureRect not found under " + name)

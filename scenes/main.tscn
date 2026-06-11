@@ -13,18 +13,78 @@
 [ext_resource type="Texture2D" uid="uid://ct4yp06pfi0p0" path="res://assets/Shop/shop owner.png" id="6_85g3d"]
 [ext_resource type="Texture2D" uid="uid://c4h4lvevntsy2" path="res://assets/Shop/shops ugrades bg.png" id="6_choun"]
 [ext_resource type="Texture2D" uid="uid://c4noqo5id4f5s" path="res://assets/icons/pay.png" id="6_jscy8"]
-[ext_resource type="Texture2D" uid="uid://da5i1dblnni6e" path="res://assets/bank.png" id="7_gqmmt"]
+[ext_resource type="Texture2D" uid="uid://c1txybm3tm6ta" path="res://assets/bank/splash.png" id="7_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://db2lx6bsfmc6t" path="res://assets/Shop/shop table over upgrades bg.png" id="7_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://eok2r4yfbyx0" path="res://assets/bank/bank.png" id="9_y6deb"]
+[ext_resource type="Texture2D" uid="uid://dveq55edsremb" path="res://assets/Shop/shop chatbox above everything.png" id="11_pm3ni"]
 [ext_resource type="Script" uid="uid://bj6od6u72b8xq" path="res://scripts/sfx2.gd" id="11_ya4ey"]
 [ext_resource type="AudioStream" uid="uid://cj51vavv0h7jp" path="res://assets/Audio/sfx/button_fx_verse_009_cc0_avr.wav" id="12_trceg"]
 [ext_resource type="AudioStream" uid="uid://dnyo12r63u4yf" path="res://assets/Audio/sfx/button_fx_verse_008_cc0_avr.wav" id="13_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://b7d01n11xtuth" path="res://assets/game bg.png" id="19_0ld40"]
+[ext_resource type="Shader" uid="uid://byhcr5rhvdh06" path="res://assets/shader/bg.gdshader" id="19_yc10j"]
 [ext_resource type="Script" uid="uid://cuo6pahf3cb00" path="res://scenes/mainmenu/Bmusic.gd" id="20_gqmmt"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_choun"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jscy8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y6deb"]
+texture = ExtResource("11_pm3ni")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_og1vs"]
+bg_color = Color(0.5372549, 0.4, 0.47843137, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.7218199, 0.5835481, 0.6610458, 1)
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wyq8"]
+content_margin_left = 448.0
 bg_color = Color(0.6, 0.6, 0.6, 0)
-corner_detail = 7
-expand_margin_right = 70.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yc10j"]
+bg_color = Color(0.52566254, 0.19858891, 0.073156066, 0.69803923)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.9676506, 0.9676505, 0.9676505, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jscy8"]
+bg_color = Color(0.78431374, 0.6392157, 0, 0.7254902)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y6deb"]
+bg_color = Color(0.09803922, 0.09803922, 0.09803922, 0.7137255)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.972549, 0.972549, 0.972549, 0.6431373)
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yc10j"]
+shader = ExtResource("19_yc10j")
+shader_parameter/speed = 0.01000004797499998
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pm3ni"]
+bg_color = Color(0.3473116, 0.21023604, 0.07668314, 0.36078432)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.22675362, 0.17687273, 4.813075e-08, 0.7921569)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
 
 [node name="canvas" type="CanvasLayer" unique_id=817848931]
 
@@ -55,15 +115,16 @@ offset_right = 22.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="PlayerStats" type="Label" parent="Main" unique_id=1529168718]
+[node name="PlayerStats" type="RichTextLabel" parent="Main" unique_id=478058229]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 14.0
 offset_top = 14.0
 offset_right = 178.0
-offset_bottom = 158.0
+offset_bottom = 332.0
+scroll_active = false
 
-[node name="BankStats" type="Label" parent="Main" unique_id=1944533365]
+[node name="BankStats" type="RichTextLabel" parent="Main" unique_id=1126496273]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
@@ -72,22 +133,24 @@ anchor_right = 1.0
 offset_left = -195.0
 offset_top = 21.0
 offset_right = -13.0
-offset_bottom = 199.0
+offset_bottom = 328.0
 grow_horizontal = 0
+scroll_active = false
 horizontal_alignment = 2
 
-[node name="Info" type="Label" parent="Main" unique_id=445832943]
+[node name="Info" type="RichTextLabel" parent="Main" unique_id=674195060]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 23.0
+offset_left = -121.0
+offset_top = 111.0
+offset_right = 121.0
+offset_bottom = 388.0
 grow_horizontal = 2
+scroll_active = false
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="CenterBank" type="CenterContainer" parent="Main" unique_id=800848963]
 layout_mode = 1
@@ -96,30 +159,31 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -243.0
-offset_top = -174.0
-offset_right = 243.0
-offset_bottom = 174.0
+offset_left = -175.0
+offset_top = -175.0
+offset_right = 175.0
+offset_bottom = 175.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(175, 175)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Main/CenterBank" unique_id=1819801733]
+[node name="bg" type="TextureRect" parent="Main/CenterBank" unique_id=1665117275]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-alignment = 1
+texture = ExtResource("7_pm3ni")
+expand_mode = 1
 
-[node name="HealthBank" type="ProgressBar" parent="Main/CenterBank/VBoxContainer" unique_id=915830081]
+[node name="Bank" type="Button" parent="Main/CenterBank" unique_id=89918896]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 20)
-layout_mode = 2
-show_percentage = false
-
-[node name="Bank" type="Button" parent="Main/CenterBank/VBoxContainer" unique_id=89918896]
-unique_name_in_owner = true
+self_modulate = Color(1, 0.9311275, 0.77618194, 1)
 custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 1
-icon = ExtResource("7_gqmmt")
+theme_override_constants/outline_size = 80
+theme_override_icons/icon = SubResource("CompressedTexture2D_jscy8")
+icon = ExtResource("9_y6deb")
 flat = true
 expand_icon = true
 
@@ -169,10 +233,80 @@ grow_vertical = 2
 texture = ExtResource("6_85g3d")
 metadata/_edit_lock_ = true
 
+[node name="dialogue" type="Panel" parent="Main/ShopMenu/ShopPanel/ShopOwner" unique_id=207939199]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -153.0
+offset_top = -180.0
+offset_right = 230.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_y6deb")
+
+[node name="ShopKeeper" type="Label" parent="Main/ShopMenu/ShopPanel/ShopOwner/dialogue" unique_id=1613220996]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.5
+offset_top = -91.0
+offset_right = 133.5
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/ShopMenu/ShopPanel/ShopOwner/dialogue" unique_id=1291174634]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 81.5
+offset_top = -66.0
+offset_right = 265.5
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="No" type="Button" parent="Main/ShopMenu/ShopPanel/ShopOwner/dialogue/HBoxContainer" unique_id=808073008]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(90, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9379265, 2.4065375e-06, 1.92523e-07, 1)
+theme_override_colors/font_outline_color = Color(0.31367198, 0.22086787, 0.2742878, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_og1vs")
+text = "NO"
+
+[node name="Yes" type="Button" parent="Main/ShopMenu/ShopPanel/ShopOwner/dialogue/HBoxContainer" unique_id=1838565318]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(90, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.64588463, 0.7683253, 3.85046e-07, 1)
+theme_override_colors/font_outline_color = Color(0.75796497, 0.6288065, 0.700708, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_og1vs")
+text = "YES"
+
 [node name="Ui" type="TextureRect" parent="Main/ShopMenu/ShopPanel" unique_id=47499684]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("6_choun")
 
@@ -187,39 +321,61 @@ mouse_filter = 2
 texture = ExtResource("7_ya4ey")
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="Main/ShopMenu/ShopPanel" unique_id=1615140635]
-layout_mode = 0
-offset_left = 460.0
-offset_top = 70.0
-offset_right = 811.0
-offset_bottom = 520.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_choun")
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -807.0
+offset_top = -234.0
+offset_right = 21.0
+offset_bottom = 195.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/scroll_hint_vertical_color = Color(0, 0, 0, 0)
+theme_override_colors/scroll_hint_horizontal_color = Color(0, 0, 0, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_2wyq8")
+horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Main/ShopMenu/ShopPanel/ScrollContainer2" unique_id=1281285167]
-custom_minimum_size = Vector2(250, 0)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 400)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 1
 alignment = 1
 
 [node name="HackingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=803491341 instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
+upgrade_id = "Hacking"
 
 [node name="BombingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=162139792 instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
+upgrade_id = "Bombing"
 
 [node name="SabotageBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=1587477061 instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
+upgrade_id = "Sabotage"
 
 [node name="ClickingBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=519593750 instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
+upgrade_id = "Click"
 
 [node name="PassiveBuy" parent="Main/ShopMenu/ShopPanel/ScrollContainer2/VBoxContainer" unique_id=1397489780 instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
+upgrade_id = "Passive"
 
 [node name="Exit" type="Button" parent="Main/ShopMenu/ShopPanel" unique_id=940595446]
 unique_name_in_owner = true
@@ -248,6 +404,7 @@ offset_bottom = 131.0
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 0.63529414)
 theme_override_font_sizes/font_size = 27
+theme_override_icons/icon = ExtResource("5_tefeu")
 text = "Shop"
 icon = ExtResource("5_tefeu")
 flat = true
@@ -275,63 +432,158 @@ bus = &"SFX"
 stream = ExtResource("13_a8y0u")
 bus = &"SFX"
 
-[node name="buttons" type="HBoxContainer" parent="Main" unique_id=183987280]
+[node name="HealthBank" type="ProgressBar" parent="Main" unique_id=915830081]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.75686276)
+z_index = -1
+custom_minimum_size = Vector2(200, 20)
 layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 50.0
+offset_right = 180.0
+offset_bottom = 79.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_styles/background = SubResource("StyleBoxFlat_yc10j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_jscy8")
+value = 50.0
+show_percentage = false
+
+[node name="Bankhealth" type="RichTextLabel" parent="Main/HealthBank" unique_id=718992982]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.44
+offset_top = -54.5
+offset_right = 110.44
+offset_bottom = -22.5
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="fold" type="FoldableContainer" parent="Main" unique_id=802060959]
+z_index = -1
+layout_mode = 0
+offset_left = 622.0
+offset_top = 155.0
+offset_right = 797.0
+offset_bottom = 431.0
+folded = true
+title = "historylog"
+title_position = 1
+
+[node name="HistoryLog" type="RichTextLabel" parent="Main/fold" unique_id=2123927998]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_y6deb")
+bbcode_enabled = true
+
+[node name="bg" type="TextureRect" parent="." unique_id=1080952969]
+self_modulate = Color(0.6608163, 0.5790961, 0.70257324, 1)
+z_index = -5
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_yc10j")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -881.0
+offset_top = -75.000015
+offset_right = 119.0
+offset_bottom = 925.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.71599007
+scale = Vector2(1.2, 1.2)
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("19_0ld40")
+expand_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1307455331]
+script = ExtResource("20_gqmmt")
+
+[node name="actionPanel" type="Panel" parent="." unique_id=1898166027]
+unique_name_in_owner = true
+z_index = -1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -314.0
-offset_top = -122.0
-offset_right = 314.0
+offset_left = -272.0
+offset_top = -146.0
+offset_right = 272.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pm3ni")
+
+[node name="actionButtons" type="HBoxContainer" parent="actionPanel" unique_id=183987280]
+modulate = Color(0.95686275, 0.8039216, 0.75686276, 0.7372549)
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -314.0
+offset_top = -61.0
+offset_right = 314.0
+offset_bottom = 73.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="Hack" parent="Main/buttons" unique_id=864464002 instance=ExtResource("2_sugp2")]
+[node name="Hack" parent="actionPanel/actionButtons" unique_id=864464002 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Bomb" parent="Main/buttons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
+[node name="Bomb" parent="actionPanel/actionButtons" unique_id=1665484643 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Sabotage" parent="Main/buttons" unique_id=124194489 instance=ExtResource("2_sugp2")]
+[node name="Sabotage" parent="actionPanel/actionButtons" unique_id=124194489 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Loan" parent="Main/buttons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
+[node name="Loan" parent="actionPanel/actionButtons" unique_id=1028354093 instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1080952969]
-z_index = -5
-offset_right = 40.0
-offset_bottom = 40.0
-mouse_filter = 2
-texture = ExtResource("19_0ld40")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1307455331]
-script = ExtResource("20_gqmmt")
-
-[connection signal="value_changed" from="Main/CenterBank/VBoxContainer/HealthBank" to="Main/Tweenss" method="_on_health_bank_value_changed"]
-[connection signal="gui_input" from="Main/CenterBank/VBoxContainer/Bank" to="Main/Tweenss" method="_on_bank_gui_input"]
-[connection signal="pressed" from="Main/CenterBank/VBoxContainer/Bank" to="Main" method="OnBank"]
-[connection signal="pressed" from="Main/CenterBank/VBoxContainer/Bank" to="Main/sfx" method="Click"]
+[connection signal="gui_input" from="Main/CenterBank/Bank" to="Main/Tweenss" method="_on_bank_gui_input"]
+[connection signal="pressed" from="Main/CenterBank/Bank" to="Main" method="OnBank"]
+[connection signal="pressed" from="Main/CenterBank/Bank" to="Main/sfx" method="Click"]
+[connection signal="pressed" from="Main/ShopMenu/ShopPanel/ShopOwner/dialogue/HBoxContainer/No" to="Main" method="_on_no_button_pressed"]
+[connection signal="pressed" from="Main/ShopMenu/ShopPanel/ShopOwner/dialogue/HBoxContainer/Yes" to="Main" method="_on_yes_button_pressed"]
 [connection signal="pressed" from="Main/ShopMenu/ShopPanel/Exit" to="Main/Tweenss" method="_on_exit_pressed"]
 [connection signal="pressed" from="Main/ShopButton" to="Main/Tweenss" method="_on_shop_button_pressed"]
 [connection signal="pressed" from="Main/ShopButton" to="Main/sfx" method="Click"]
-[connection signal="gui_input" from="Main/buttons/Hack" to="Main/Tweenss" method="_on_hack_gui_input"]
-[connection signal="pressed" from="Main/buttons/Hack" to="Main" method="OnHack"]
-[connection signal="pressed" from="Main/buttons/Hack" to="Main/sfx" method="Click"]
-[connection signal="gui_input" from="Main/buttons/Bomb" to="Main/Tweenss" method="_on_bomb_gui_input"]
-[connection signal="pressed" from="Main/buttons/Bomb" to="Main" method="OnBomb"]
-[connection signal="pressed" from="Main/buttons/Bomb" to="Main/sfx" method="Click"]
-[connection signal="gui_input" from="Main/buttons/Sabotage" to="Main/Tweenss" method="_on_sabotage_gui_input"]
-[connection signal="pressed" from="Main/buttons/Sabotage" to="Main" method="OnSabotage"]
-[connection signal="pressed" from="Main/buttons/Sabotage" to="Main/sfx" method="Click"]
-[connection signal="gui_input" from="Main/buttons/Loan" to="Main/Tweenss" method="_on_loan_gui_input"]
-[connection signal="pressed" from="Main/buttons/Loan" to="Main" method="OnLoan"]
-[connection signal="pressed" from="Main/buttons/Loan" to="Main/sfx" method="Click"]
+[connection signal="value_changed" from="Main/HealthBank" to="Main/Tweenss" method="_on_health_bank_value_changed"]
+[connection signal="gui_input" from="actionPanel/actionButtons/Hack" to="Main/Tweenss" method="_on_hack_gui_input"]
+[connection signal="pressed" from="actionPanel/actionButtons/Hack" to="Main" method="OnHack"]
+[connection signal="pressed" from="actionPanel/actionButtons/Hack" to="Main/sfx" method="Click"]
+[connection signal="gui_input" from="actionPanel/actionButtons/Bomb" to="Main/Tweenss" method="_on_bomb_gui_input"]
+[connection signal="pressed" from="actionPanel/actionButtons/Bomb" to="Main" method="OnBomb"]
+[connection signal="pressed" from="actionPanel/actionButtons/Bomb" to="Main/sfx" method="Click"]
+[connection signal="gui_input" from="actionPanel/actionButtons/Sabotage" to="Main/Tweenss" method="_on_sabotage_gui_input"]
+[connection signal="pressed" from="actionPanel/actionButtons/Sabotage" to="Main" method="OnSabotage"]
+[connection signal="pressed" from="actionPanel/actionButtons/Sabotage" to="Main/sfx" method="Click"]
+[connection signal="gui_input" from="actionPanel/actionButtons/Loan" to="Main/Tweenss" method="_on_loan_gui_input"]
+[connection signal="pressed" from="actionPanel/actionButtons/Loan" to="Main" method="OnLoan"]
+[connection signal="pressed" from="actionPanel/actionButtons/Loan" to="Main/sfx" method="Click"]

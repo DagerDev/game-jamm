@@ -1,12 +1,22 @@
 extends Control
 
+
+
 # =========================================================
 # UI
 # =========================================================
+@onready var npc_text = %ShopKeeper
+@onready var yes_button = %Yes
+@onready var no_button = %No
+
+var selected_upgrade := ""
+
 @onready var PlayerLabel = %PlayerStats
 @onready var BankLabel = %BankStats
 @onready var HealthBar = %HealthBank
 @onready var shop_controller = %Tweenss
+@onready var bankhealthText = %Bankhealth
+@onready var history_log: RichTextLabel = %HistoryLog
 
 @onready var actions = [%Hack,%Bomb,%Sabotage,%Loan]
 
@@ -17,6 +27,12 @@ extends Control
 @export var pay_icon: Texture2D
 
 var action_icons = []
+
+var actionNames = ["Hack",
+"Bomb",
+"Sabotage",
+"Loan"]
+
 
 @onready var shopbut = [
 	%HackingBuy,
@@ -34,13 +50,6 @@ const shopTitles = [
 	"Upgrade Passive Income"
 ]
 
-var shopfunc = [
-	UpgradeHacking,
-	UpgradeBombing,
-	UpgradeSabotage,
-	UpgradeClick,
-	UpgradePassive
-]
 
 # =========================================================
 # PLAYER
@@ -126,6 +135,29 @@ var upgrades := {
 	}
 }
 
+var upgrade_info := {
+	"Hacking": {
+		"name": "Hire Hackers",
+		"description": "+1 Hacking"
+	},
+	"Bombing": {
+		"name": "Buy Explosives",
+		"description": "+1 Bombing"
+	},
+	"Sabotage": {
+		"name": "Recruit Insider",
+		"description": "+1 Sabotage"
+	},
+	"Click": {
+		"name": "Better Tools",
+		"description": "+1 Click Power"
+	},
+	"Passive": {
+		"name": "Money Laundering",
+		"description": "+1 Passive Income/sec"
+	}
+}
+
 # =========================================================
 # PROCESS
 # =========================================================
@@ -152,42 +184,81 @@ func _process(delta):
 func push_message(text:String):
 	shop_controller.push_message(text)
 
+	# Skip manual clicks / income spam
+	if "CLICK" in text or "MANUAL INCOME" in text or "Click Upgrade" in text:
+		return
+	
+	var turn_text = "Start" if turn == 0 else "T%d" % turn
+	var color = "#FFFFFF"
+	var prefix = ""
+	
+	# Color + prefix by type
+	if "HACKING" in text:
+		color = "#FF6B6B"
+		prefix = "🖥️ "
+	elif "BOMBING" in text:
+		color = "#FF6B6B"
+		prefix = "💣 "
+	elif "SABOTAGE" in text:
+		color = "#FF6B6B"
+		prefix = "☠️ "
+	elif "UPGRADE" in text:
+		color = "#4ECDC4"
+		prefix = "⬆ "
+	elif "SHOP" in text or "Not enough" in text:
+		color = "#FFE66D"
+		prefix = "⚠ "
+	elif "LOAN" in text:
+		color = "#A8E6CF"
+		prefix = "💵 "
+	elif "PAY" in text:
+		color = "#A8E6CF"
+		prefix = "💸 "
+	elif "NEW GAME" in text or "MISSION" in text:
+		color = "#95E1D3"
+		prefix = "★ "
+	elif "TIP" in text:
+		color = "#C7B3FF"
+		prefix = "💡 "
+	
+	# Clean newlines and add spacing
+	var clean_text = text.replace("\n", " ").strip_edges()
+	var formatted = "[font_size=14][color=%s][%s] %s%s[/color][/font_size]\n\n" % [color, turn_text, prefix, clean_text]
+	history_log.append_text(formatted)
 # =========================================================
 # UI
 # =========================================================
 func update_ui():
 
+	var debt_color = "red" if debt > 0 else "gray"
+	var hp_ratio = float(bank_hp) / bank_max_hp
+	var hp_color = "lime" if hp_ratio > 0.5 else "yellow" if hp_ratio > 0.2 else "red"
+	
+	PlayerLabel.bbcode_enabled = true
 	PlayerLabel.text = \
-		"PLAYER\n" + \
-		"Money: $" + str(money) + "\n" + \
-		"Debt: $" + str(debt) + "\n" + \
-		"Passive: $" + str(passive_income) + "/s\n" + \
+		"[b][font_size=20]💰 PLAYER[/font_size][/b]\n" + \
+		"Money: [color=lime]$" + str(money) + "[/color]\n" + \
+		"Debt: [color=" + debt_color + "]$" + str(debt) + "[/color]\n" + \
+		"Passive: [color=cyan]$" + str(passive_income) + "/s[/color]\n" + \
 		"\nHacking: " + str(hacking) + "\n" + \
 		"Bombing: " + str(bombing) + "\n" + \
 		"Sabotage: " + str(sabotage_power) + "\n" + \
 		"Click: " + str(click_power) + "\n" + \
-		"\nTurn: " + str(turn)
+		"\nTurn: [wave amp=20][color=yellow]" + str(turn) + "[/color][/wave]"
 
+	BankLabel.bbcode_enabled = true
 	BankLabel.text = \
-		"BANK\n" + \
-		"HP: " + str(bank_hp) + "/" + str(bank_max_hp) + "\n" + \
+		"[b][font_size=20]🏦 BANK[/font_size][/b]\n" + \
+		"HP: [color=" + hp_color + "]" + str(bank_hp) + "[/color]/" + str(bank_max_hp) + "\n" + \
 		"Security: " + str(security) + "\n" + \
 		"Cyber: " + str(cybersecurity) + "\n" + \
 		"Strength: " + str(building_strength)
-
+		
+	bankhealthText.bbcode_enabled = true
+	bankhealthText.text = "[b]BankHealth:[/b] [color=" + hp_color +"]" + str(bank_hp) + "[/color]/" + str(bank_max_hp)
+		
 	HealthBar.max_value = bank_max_hp
 	HealthBar.value = bank_hp
-
-	var upgradesPrice = [
-		upgrades["Hacking"].price,
-		upgrades["Bombing"].price,
-		upgrades["Sabotage"].price,
-		upgrades["Click"].price,
-		upgrades["Passive"].price
-	]
-
-	for i in range(shopbut.size()):
-		shopbut[i].getPrice(upgradesPrice[i])
 
 # =========================================================
 # HELPERS
@@ -693,26 +764,84 @@ func OnBank():
 # SHOP
 # =========================================================
 
-func UpgradeHacking():
-	buy_upgrade("Hacking")
+func update_shop_buttons():
 
+	var ids = [
+		"Hacking",
+		"Bombing",
+		"Sabotage",
+		"Click",
+		"Passive"
+	]
 
-func UpgradeBombing():
-	buy_upgrade("Bombing")
+	for i in range(shopbut.size()):
 
+		var id = ids[i]
 
-func UpgradeSabotage():
-	buy_upgrade("Sabotage")
+		var item = upgrades[id]
+		var info = upgrade_info[id]
 
+		shopbut[i].text = ""
 
-func UpgradeClick():
-	buy_upgrade("Click")
+		var label = shopbut[i].get_node("RichLabel")
 
+		label.bbcode_enabled = true
 
-func UpgradePassive():
-	buy_upgrade("Passive")
+		label.text = \
+			"[center]" + \
+			"[b]" + info["name"] + "[/b]\n" + \
+			"Lv." + str(item["level"]) + "\n" + \
+			info["description"] + "\n" + \
+			"[color=yellow]$" + str(item["price"]) + "[/color]" + \
+			"[/center]"
 
+func create_shop_button(id:String):
 
+	var btn = ShopButton.new()
+
+	btn.setup(id, upgrades[id].price)
+
+	btn.selected.connect(_on_shop_item_selected)
+
+	%VBoxContainer.add_child(btn)
+	
+func _on_shop_item_selected(id:String):
+
+	selected_upgrade = id
+
+	var item = upgrades[id]
+
+	npc_text.text = "Do you wish to buy %s upgrade for $%s?" % [
+		id,
+		item["price"]
+	]
+
+	yes_button.show()
+	no_button.show()
+
+func _on_yes_button_pressed():
+
+	if selected_upgrade == "":
+		return
+
+	buy_upgrade(selected_upgrade)
+
+	selected_upgrade = ""
+
+	yes_button.hide()
+	no_button.hide()
+
+	npc_text.text = "Anything else?"
+	
+func _on_no_button_pressed():
+
+	selected_upgrade = ""
+
+	yes_button.hide()
+	no_button.hide()
+
+	npc_text.text = "Come back anytime."
+	
 # =========================================================
 # BUY UPGRADE
 # =========================================================
@@ -721,18 +850,18 @@ func buy_upgrade(id:String):
 
 	var item = upgrades[id]
 
-	if money < item.price:
+	if money < item["price"]:
 
 		push_message(
 			"SHOP\n\nNot enough money.\n\nNeed $%s"
-			% item.price
+			% item["price"]
 		)
 
 		return
 
-	money -= item.price
+	money -= item["price"]
 
-	item.level += 1
+	item["level"] += 1
 
 	match id:
 
@@ -742,7 +871,7 @@ func buy_upgrade(id:String):
 
 			push_message(
 				"HACKING UPGRADE\n\nLevel %s"
-				% item.level
+				% item["level"]
 			)
 
 		"Bombing":
@@ -751,7 +880,7 @@ func buy_upgrade(id:String):
 
 			push_message(
 				"BOMBING UPGRADE\n\nLevel %s"
-				% item.level
+				% item["level"]
 			)
 
 		"Sabotage":
@@ -760,7 +889,7 @@ func buy_upgrade(id:String):
 
 			push_message(
 				"SABOTAGE UPGRADE\n\nLevel %s"
-				% item.level
+				% item["level"]
 			)
 
 		"Click":
@@ -769,7 +898,7 @@ func buy_upgrade(id:String):
 
 			push_message(
 				"CLICK UPGRADE\n\nLevel %s"
-				% item.level
+				% item["level"]
 			)
 
 		"Passive":
@@ -782,20 +911,20 @@ func buy_upgrade(id:String):
 
 	# scale prices
 
-	var growth = item.growth
+	var growth = item["growth"]
 
-	if item.level >= 10:
+	if item["level"] >= 10:
 		growth += 0.05
 
-	if item.level >= 20:
+	if item["level"] >= 20:
 		growth += 0.10
 
-	if item.level >= 30:
+	if item["level"] >= 30:
 		growth += 0.15
 
-	item.price = max(
+	item["price"] = max(
 		1,
-		ceili(item.price * growth)
+		ceili(item["price"] * growth)
 	)
 
 	upgrades[id] = item
@@ -890,7 +1019,13 @@ func update_loan_button():
 # =========================================================
 
 func _ready():
+	update_shop_buttons()
 	
+	for child in %VBoxContainer.get_children():
+
+		if child is ShopButton:
+			child.selected.connect(_on_shop_item_selected)
+
 	action_icons = [
 	hack_icon,
 	bomb_icon,
@@ -899,27 +1034,13 @@ func _ready():
 	]
 	
 	
-	update_loan_button()
-	
 	for i in range(actions.size()):
-		actions[i].update_button(
-		actions[i].button_text,
-		action_icons[i]
-	)
-	
-	randomize()
+		actions[i].update_text(actionNames[i])
+		actions[i].update_icon(action_icons[i])
+	update_loan_button()
 
 	update_ui()
 
-	for i in range(shopbut.size()):
-
-		shopbut[i].OnBuy.connect(
-			shopfunc[i]
-		)
-
-		shopbut[i].getTitle(
-			shopTitles[i]
-		)
 
 	push_message(
 		"MISSION\n\nDestroy the bank before going bankrupt."

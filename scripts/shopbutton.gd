@@ -1,23 +1,21 @@
-extends PanelContainer
-class_name shopButton
+extends Button
+class_name ShopButton
 
-@onready var label  = $MarginContainer2/Text
+signal selected(id)
 
-var title := "bamwe"
-var price : int
+@onready var label = $RichLabel
 
-signal OnBuy
+@export var upgrade_id := ""
 
-func getTitle(titleName:String):
-	title = titleName
-	update()
-func getPrice(priceInt:int):
-	price = priceInt
-	update()
+func update_display(level:int, price:int, description:String):
 
-func update() -> void:
-	label.text = title + \
-	"\nprice: " + str(price)
+	label.bbcode_enabled = true
 
-func Pressed() -> void:
-	OnBuy.emit()
+	label.text = \
+		"[b]" + upgrade_id + "[/b]\n" + \
+		"Lv." + str(level) + "\n" + \
+		description + "\n" + \
+		"$" + str(price)
+
+func _pressed():
+	selected.emit(upgrade_id)

@@ -1,7 +1,7 @@
 extends Control
 
-@onready var shopkeeper =$"../ShopMenu/ShopPanel/ShopOwner"
-
+@onready var shopkeeper = $"../ShopMenu/ShopPanel/ShopOwner"
+@onready var actionButtons = %actionPanel
 @onready var shopMenu = %ShopMenu
 @onready var shopPanel = %ShopPanel
 @onready var bank = %Bank
@@ -124,6 +124,7 @@ func _on_health_bank_value_changed(_value: float) -> void:
 	tween_health.tween_property(health, "scale", Vector2.ONE, 0.06)
 
 func _on_shop_button_pressed() -> void:
+	actionButtons.visible = false
 	shopMenu.mouse_filter = Control.MOUSE_FILTER_STOP
 	shopPanel.mouse_filter = Control.MOUSE_FILTER_STOP
 	
@@ -139,6 +140,7 @@ func _on_shop_button_pressed() -> void:
 	tween_shop.tween_property(shopPanel, "position", panel_start_pos, 0.5)
 
 func _on_exit_pressed() -> void:
+	actionButtons.visible = true
 	shopMenu.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	shopPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	

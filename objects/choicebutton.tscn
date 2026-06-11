@@ -1,13 +1,20 @@
 [gd_scene format=3 uid="uid://dr8b1m2gxs6p2"]
 
 [ext_resource type="Script" uid="uid://di6g5n6kcu0nn" path="res://scripts/choice.gd" id="2_6d6hr"]
-[ext_resource type="Texture2D" uid="uid://c1aum2g8qd5gv" path="res://assets/icons/loan.png" id="2_ep2lt"]
+[ext_resource type="Shader" uid="uid://br3mss7omoe8v" path="res://objects/choicebutton.gdshader" id="2_o2v6f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x6wvg"]
+shader = ExtResource("2_o2v6f")
+shader_parameter/corner_radius = 50.0
+shader_parameter/border_width = 10.0
+shader_parameter/border_color = Color(1, 0.8893207, 0.86065483, 1)
 
 [node name="Choice" type="Button" unique_id=780817041]
 z_index = -1
 offset_top = -2.0
 offset_right = 90.0
 offset_bottom = 121.0
+pivot_offset = Vector2(45, 61)
 flat = true
 icon_alignment = 1
 script = ExtResource("2_6d6hr")
@@ -30,13 +37,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=177430853]
+material = SubResource("ShaderMaterial_x6wvg")
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -47.5
-offset_right = 47.5
-offset_bottom = 95.0
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 98.0
 grow_horizontal = 2
-texture = ExtResource("2_ep2lt")
+pivot_offset = Vector2(50, 49)
 expand_mode = 1
