@@ -40,7 +40,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wyq8"]
-content_margin_left = 448.0
+content_margin_left = 456.0
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yc10j"]
@@ -261,6 +261,7 @@ offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
+text = "Welcome my friend."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Main/ShopMenu/ShopPanel/ShopOwner/dialogue" unique_id=1291174634]
 layout_mode = 1

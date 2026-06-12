@@ -823,15 +823,13 @@ func _on_yes_button_pressed():
 
 	if selected_upgrade == "":
 		return
-
+		
 	buy_upgrade(selected_upgrade)
 
 	selected_upgrade = ""
 
 	yes_button.hide()
 	no_button.hide()
-
-	npc_text.text = "Anything else?"
 	
 func _on_no_button_pressed():
 
@@ -851,13 +849,10 @@ func buy_upgrade(id:String):
 	var item = upgrades[id]
 
 	if money < item["price"]:
-
-		push_message(
-			"SHOP\n\nNot enough money.\n\nNeed $%s"
-			% item["price"]
-		)
-
+		npc_text.text = "sorry not enough money"
 		return
+		
+	npc_text.text = "thank you for buying"
 
 	money -= item["price"]
 
