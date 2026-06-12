@@ -1,56 +1,89 @@
-name: Export Godot Web  
-  
+name: Export Godot
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-  
-jobs:  
-  build:  
-    runs-on: ubuntu-latest  
-    timeout-minutes: 10 
-  
-    permissions:  
-      contents: write  
-  
-    steps:  
-      - uses: actions/checkout@v4  
-  
-      - name: Setup Godot  
-        run: |  
-          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip  
-          unzip Godot_v4.6-stable_linux.x86_64.zip  
-          chmod +x Godot_v4.6-stable_linux.x86_64  
-  
-      - name: Setup export templates  
-        run: |  
-          mkdir -p ~/.local/share/godot/export_templates/4.6.stable/  
-          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz  
-          unzip Godot_v4.6-stable_export_templates.tpz  
-          mv templates/* ~/.local/share/godot/export_templates/4.6.stable/  
 
-      # Clean up any cached/corrupted importer files that might have been pushed to Git
-      - name: Clean Cache
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        run: |
+          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
+          unzip Godot_v4.6-stable_linux.x86_64.zip
+          chmod +x Godot_v4.6-stable_linux.x86_64
+
+      - name: Setup export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.6.stable/
+          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
+          unzip Godot_v4.6-stable_export_templates.tpz
+          mv templates/* ~/.local/share/godot/export_templates/4.6.stable/
+
+      - name: Clean Godot cache
         run: |
           rm -rf .godot/
           rm -rf .import/
 
-      # Run import with --verbose so we can see what it's doing in the logs
-      - name: Import Assets
+      - name: Import assets
         run: |
-          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --editor --quit --verbose || true
-  
-      # Run export with --verbose
-      - name: Export Web  
-        run: |  
-          mkdir -p build  
-          ./Godot_v4.6-stable_linux.x86_64 --headless \  
-          --path . \  
-          --export-release "Web" build/index.html --verbose  
-  
-      - name: Deploy  
-        uses: peaceiris/actions-gh-pages@v4  
-        with:  
-          github_token: ${{ secrets.GITHUB_TOKEN }}  
-          publish_dir: build
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --editor --quit --verbose
+
+      - name: Export Web
+        run: |
+          mkdir -p build/web
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-release "Web" build/web/index.html --verbose
+
+      - name: Export Windows
+        run: |
+          mkdir -p build/windows
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-release "Windows Desktop" build/windows/game.exe --verbose
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Export Android APK
+        run: |
+          mkdir -p build/android
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-release "Android" build/android/game.apk --verbose
+
+      - name: Upload Web Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: build/web
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: build/windows
+
+      - name: Upload Android Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: build/android
+
+      - name: Deploy Web to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
