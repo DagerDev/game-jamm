@@ -48,7 +48,7 @@ jobs:
       - name: Export Windows
         run: |
           mkdir -p build/windows
-          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-release "Windows Desktop" build/windows/game.exe --verbose
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-release "Windows Desktop" build/windows/BTB.exe --verbose
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -62,7 +62,7 @@ jobs:
       - name: Export Android APK
         run: |
           mkdir -p build/android
-          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-release "Android" build/android/game.apk --verbose
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --export-debug "Android" build/android/BTB.apk --verbose
 
       - name: Upload Web Artifact
         uses: actions/upload-artifact@v4
