@@ -11,12 +11,12 @@ config_version=5
 [application]
 
 config/name="Break the Bank!"
-run/main_scene="res://scenes/mainmenu.tscn"
+run/main_scene="uid://3wh07r6dgcly"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+run/low_processor_mode=true
 boot_splash/bg_color=Color(0.42408186, 0.3067855, 0.37413323, 1)
 boot_splash/stretch_mode=4
-boot_splash/image="res://assets/cover.png"
-boot_splash/minimum_display_time=1
+boot_splash/image="uid://2i3i7q2d7ro0"
 
 [display]
 
