@@ -9,6 +9,7 @@ on:
 jobs:  
   build:  
     runs-on: ubuntu-latest  
+    timeout-minutes: 10 
   
     permissions:  
       contents: write  
@@ -29,17 +30,24 @@ jobs:
           unzip Godot_v4.6-stable_export_templates.tpz  
           mv templates/* ~/.local/share/godot/export_templates/4.6.stable/  
 
-      # --- ADDED IMPORT STEP ---
+      # Clean up any cached/corrupted importer files that might have been pushed to Git
+      - name: Clean Cache
+        run: |
+          rm -rf .godot/
+          rm -rf .import/
+
+      # Run import with --verbose so we can see what it's doing in the logs
       - name: Import Assets
         run: |
-          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --editor --quit || true
+          ./Godot_v4.6-stable_linux.x86_64 --headless --path . --editor --quit --verbose || true
   
+      # Run export with --verbose
       - name: Export Web  
         run: |  
           mkdir -p build  
           ./Godot_v4.6-stable_linux.x86_64 --headless \  
           --path . \  
-          --export-release "Web" build/index.html  
+          --export-release "Web" build/index.html --verbose  
   
       - name: Deploy  
         uses: peaceiris/actions-gh-pages@v4  
